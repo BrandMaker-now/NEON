@@ -53,15 +53,16 @@
                 <p class="timer-message">
                     時間を設定し、スタートでカウントダウンを開始します。
                 </p>
-                <!-- 半角数字メッセージは不要になったため削除 -->
                 <div class="countdown-controls-top">
-                    <!-- selectタグに変更 -->
+                    <!-- selectタグに hours を追加 -->
+                    <select id="countdown-hours-input" class="feature-input"></select>
+                    <span>時間</span>
                     <select id="countdown-minutes-input" class="feature-input"></select>
                     <span>分</span>
                     <select id="countdown-seconds-input" class="feature-input"></select>
                     <span>秒</span>
                 </div>
-                <div id="countdown-display" class="display">00:00</div>
+                <div id="countdown-display" class="display">00:00:00</div>
                 <div class="timer-controls">
                     <button id="cd-start-btn" class="feature-btn">スタート</button>
                     <button id="cd-pause-btn" class="feature-btn" disabled>一時停止</button>
@@ -173,19 +174,21 @@
     
     function updateStopwatch() {
         swSeconds++;
-        const mins = Math.floor(swSeconds / 60);
+        const hours = Math.floor(swSeconds / 3600);
+        const mins = Math.floor((swSeconds % 3600) / 60);
         const secs = swSeconds % 60;
+        // ストップウォッチの表示も H:M:S 形式に変更
         swDisplay.textContent = 
-            `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
 
 
-    // --- カウントダウンタイマー ロジック (入力UI変更) ---
+    // --- カウントダウンタイマー ロジック (時間追加) ---
     let cdInterval = null;
     let cdSecondsRemaining = 0;
+    const cdHoursInput = document.getElementById('countdown-hours-input');
     const cdMinutesInput = document.getElementById('countdown-minutes-input');
     const cdSecondsInput = document.getElementById('countdown-seconds-input');
-    // const cdPresetSelect = document.getElementById('countdown-preset'); // 削除
     const cdDisplay = document.getElementById('countdown-display');
     const cdStartBtn = document.getElementById('cd-start-btn');
     const cdPauseBtn = document.getElementById('cd-pause-btn');
@@ -200,32 +203,28 @@
             selectEl.appendChild(option);
         }
     }
-    // プルダウンを生成
-    populateSelect(cdMinutesInput, 99);
+    // プルダウンを生成 (時間は99時間まで設定可能に)
+    populateSelect(cdHoursInput, 99); 
+    populateSelect(cdMinutesInput, 59);
     populateSelect(cdSecondsInput, 59);
-
-
-    // 入力監視イベントは不要になったため削除
-    // cdMinutesInput.addEventListener('input', enforceHalfWidthNumeric);
-    // cdSecondsInput.addEventListener('input', enforceHalfWidthNumeric);
-    // cdPresetSelect.addEventListener('change', ... は削除);
 
 
     cdStartBtn.addEventListener('click', () => {
         if (!cdInterval) {
             if (cdSecondsRemaining <= 0) {
-                // select要素から値を取得
+                const hours = parseInt(cdHoursInput.value) || 0;
                 const minutes = parseInt(cdMinutesInput.value) || 0;
                 const seconds = parseInt(cdSecondsInput.value) || 0;
-                cdSecondsRemaining = minutes * 60 + seconds;
+                cdSecondsRemaining = hours * 3600 + minutes * 60 + seconds; // 時間の計算
                 if (cdSecondsRemaining <= 0) return;
             }
 
             cdInterval = setInterval(tick, 1000);
             cdStartBtn.disabled = true;
             cdPauseBtn.disabled = false;
-            cdMinutesInput.disabled = true; // select要素を無効化
-            cdSecondsInput.disabled = true; // select要素を無効化
+            cdHoursInput.disabled = true; 
+            cdMinutesInput.disabled = true; 
+            cdSecondsInput.disabled = true;
         }
     });
 
@@ -245,8 +244,10 @@
         updateCountdownDisplay(0); 
         cdStartBtn.disabled = false;
         cdPauseBtn.disabled = true;
-        cdMinutesInput.disabled = false; // select要素を有効化
-        cdSecondsInput.disabled = false; // select要素を有効化
+        cdHoursInput.disabled = false; 
+        cdMinutesInput.disabled = false; 
+        cdSecondsInput.disabled = false;
+        cdHoursInput.value = 0; 
         cdMinutesInput.value = 0; 
         cdSecondsInput.value = 0;
     });
@@ -259,7 +260,8 @@
             cdDisplay.textContent = "DONE!";
             cdStartBtn.disabled = false;
             cdPauseBtn.disabled = true;
-            cdMinutesInput.disabled = false;
+            cdHoursInput.disabled = false; 
+            cdMinutesInput.disabled = false; 
             cdSecondsInput.disabled = false;
         } else {
             updateCountdownDisplay(cdSecondsRemaining);
@@ -267,10 +269,12 @@
     }
     
     function updateCountdownDisplay(secondsTotal) {
-        const mins = Math.floor(secondsTotal / 60);
+        const hours = Math.floor(secondsTotal / 3600);
+        const mins = Math.floor((secondsTotal % 3600) / 60);
         const secs = secondsTotal % 60;
+        // カウントダウンの表示も H:M:S 形式に変更
         cdDisplay.textContent = 
-            `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
 
 
@@ -279,7 +283,7 @@
     const inputUnitEl = document.getElementById('input-unit');
     const outputValueEl = document.getElementById('output-value');
     const outputUnitEl = document.getElementById('output-unit');
-    const conversionRates = { /* ... */ }; // 定義は前回のまま
+    const conversionRates = { 'cm': 0.01, 'm': 1, 'km': 1000, 'in': 0.0254 };
 
     function convertUnits() {
         const inputValue = parseFloat(inputValueEl.value) || 0;
@@ -296,6 +300,7 @@
     window.onload = () => {
         showFeature('timer-section'); // タイマーを初期表示
         convertUnits(); // 単位変換の初期計算を実行
+        // updateCountdownDisplay(0); // H:M:S 形式の初期表示は 00:00:00 になるため不要
     };
 </script>
 
