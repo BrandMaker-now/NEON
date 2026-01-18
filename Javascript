@@ -1,22 +1,107 @@
-// ページ読み込み完了時の処理
-window.addEventListener('DOMContentLoaded', () => {
-    // 最初にタイマーを表示しておく
-    showFeature('timer-section');
+/* --- 機能切り替え --- */
+function showFeature(featureId) {
+    const contents = document.querySelectorAll('.feature-content');
+    contents.forEach(content => { content.classList.remove('active'); });
+    const target = document.getElementById(featureId);
+    if (target) { target.classList.add('active'); }
+}
+
+/* --- ストップウォッチ --- */
+let swInterval = null, swSeconds = 0;
+const swDisplay = document.getElementById('stopwatch-display');
+const swStartBtn = document.getElementById('sw-start-btn');
+const swPauseBtn = document.getElementById('sw-pause-btn');
+
+swStartBtn.addEventListener('click', () => {
+    if (!swInterval) {
+        swInterval = setInterval(() => {
+            swSeconds++;
+            const h = Math.floor(swSeconds/3600).toString().padStart(2,'0');
+            const m = Math.floor((swSeconds%3600)/60).toString().padStart(2,'0');
+            const s = (swSeconds%60).toString().padStart(2,'0');
+            swDisplay.textContent = `${h}:${m}:${s}`;
+        }, 1000);
+        swStartBtn.disabled = true; swPauseBtn.disabled = false;
+    }
+});
+swPauseBtn.addEventListener('click', () => {
+    clearInterval(swInterval); swInterval = null; swStartBtn.disabled = false; swPauseBtn.disabled = true;
+});
+document.getElementById('sw-reset-btn').addEventListener('click', () => {
+    clearInterval(swInterval); swInterval = null; swSeconds = 0; swDisplay.textContent = '00:00:00';
+    swStartBtn.disabled = false; swPauseBtn.disabled = true;
 });
 
-// 機能切り替え関数
-function showFeature(featureId) {
-    // すべてのセクションを取得して非表示にする
-    const sections = document.querySelectorAll('.feature-content');
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
+/* --- カウントダウン --- */
+let cdInterval = null, cdSecondsRemaining = 0;
+const cdHoursInput = document.getElementById('countdown-hours-input');
+const cdMinutesInput = document.getElementById('countdown-minutes-input');
+const cdSecondsInput = document.getElementById('countdown-seconds-input');
+const cdDisplay = document.getElementById('countdown-display');
 
-    // 指定されたIDのセクションを表示する
-    const target = document.getElementById(featureId);
-    if (target) {
-        target.classList.add('active');
-        // スムーズにスクロール（任意）
-        target.scrollIntoView({ behavior: 'smooth' });
+function populateSelect(selectEl, max) {
+    for (let i = 0; i <= max; i++) {
+        const option = document.createElement('option');
+        option.value = i; option.textContent = i.toString().padStart(2, '0');
+        selectEl.appendChild(option);
     }
 }
+populateSelect(cdHoursInput, 99); populateSelect(cdMinutesInput, 59); populateSelect(cdSecondsInput, 59);
+
+document.getElementById('cd-start-btn').addEventListener('click', () => {
+    if (!cdInterval) {
+        if (cdSecondsRemaining <= 0) {
+            cdSecondsRemaining = parseInt(cdHoursInput.value)*3600 + parseInt(cdMinutesInput.value)*60 + parseInt(cdSecondsInput.value);
+            if (cdSecondsRemaining <= 0) return;
+        }
+        cdInterval = setInterval(() => {
+            cdSecondsRemaining--;
+            if (cdSecondsRemaining < 0) {
+                clearInterval(cdInterval); cdInterval = null; cdDisplay.textContent = "DONE!";
+            } else {
+                const h = Math.floor(cdSecondsRemaining/3600).toString().padStart(2,'0');
+                const m = Math.floor((cdSecondsRemaining%3600)/60).toString().padStart(2,'0');
+                const s = (cdSecondsRemaining%60).toString().padStart(2,'0');
+                cdDisplay.textContent = `${h}:${m}:${s}`;
+            }
+        }, 1000);
+    }
+});
+
+/* --- 単位変換 --- */
+const conversionRates = { 'cm': 0.01, 'm': 1, 'km': 1000, 'in': 0.0254 };
+function convertUnits() {
+    const val = parseFloat(document.getElementById('input-value').value) || 0;
+    const from = document.getElementById('input-unit').value;
+    const to = document.getElementById('output-unit').value;
+    const result = (val * conversionRates[from]) / conversionRates[to];
+    document.getElementById('output-value').value = parseFloat(result.toPrecision(5)).toString(); 
+}
+
+/* --- お天気ロジック --- */
+function updateWeatherUI(cityName, currentTemp, condition) {
+    document.getElementById('weather-location').textContent = `Location: ${cityName}`;
+    document.getElementById('weather-display').textContent = `${currentTemp}°C`;
+    document.getElementById('weather-desc').textContent = condition;
+    // 3日間予報のシミュレーション
+    for(let i=1; i<=3; i++) {
+        document.getElementById(`forecast-${i}-temp`).textContent = `${currentTemp + (i * 2)}°C`;
+        document.getElementById(`forecast-${i}-desc`).textContent = "CLOUDY";
+    }
+}
+
+function getWeatherByCity() {
+    const city = document.getElementById('city-input').value;
+    if (!city) return alert("都市名を入力してください");
+    updateWeatherUI(city.toUpperCase(), 15, "SUNNY"); // 仮データ
+}
+
+async function getWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+            updateWeatherUI("KAGOSHIMA, JP", 10, "CLEAR SKY"); // 2026/01/18 現在の鹿児島
+        }, () => { document.getElementById('weather-desc').textContent = "LOCATION ERROR"; });
+    }
+}
+
+window.onload = () => { showFeature('timer-section'); convertUnits(); getWeather(); };
