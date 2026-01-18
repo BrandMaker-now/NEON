@@ -1,9 +1,75 @@
-<head>
-    ...他の設定...
-    <style>
-        /* ここに送ってくれたCSSを全部貼る */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #222; color: #0f0; ... }
-        ...
-    </style>
-</head>
+/* --- お天気ロジック (2026年版・位置情報連動) --- */
+
+// 天気の状態を日本語とアイコンに変換
+function getWeatherInfo(condition) {
+    const data = {
+        'Sunny': { text: '快晴 ☀', icon: '☀' },
+        'Clear': { text: '晴れ ☀', icon: '☀' },
+        'Cloudy': { text: '曇り ☁', icon: '☁' },
+        'Rainy': { text: '雨 ☂', icon: '☂' },
+        'Snow': { text: '雪 ☃', icon: '☃' } // 雪だるまに変更
+    };
+    return data[condition] || { text: condition, icon: '✨' };
+}
+
+function updateWeatherUI(cityName, currentTemp, condition) {
+    const info = getWeatherInfo(condition);
+    document.getElementById('weather-location').textContent = `場所: ${cityName}`;
+    document.getElementById('weather-display').textContent = `${currentTemp}°C`;
+    document.getElementById('weather-desc').textContent = info.text;
+
+    // 予報部分の更新 (シミュレーション)
+    const forecasts = [
+        { day: 1, temp: currentTemp + 1, cond: 'Clear' },
+        { day: 2, temp: currentTemp - 1, cond: 'Cloudy' },
+        { day: 3, temp: currentTemp - 2, cond: 'Snow' } // 3日後に雪だるまを表示
+    ];
+
+    forecasts.forEach(f => {
+        const fInfo = getWeatherInfo(f.cond);
+        document.getElementById(`forecast-${f.day}-temp`).textContent = `${f.temp}°C`;
+        const iconEl = document.getElementById(`forecast-${f.day}-icon`);
+        if (iconEl) iconEl.textContent = fInfo.icon;
+    });
+}
+
+// 都市検索
+function getWeatherByCity() {
+    const city = document.getElementById('city-input').value;
+    if (city) {
+        updateWeatherUI(city, 12, 'Clear'); // 検索時は晴れでシミュレート
+    } else {
+        alert("都市名を入力してください");
+    }
+}
+
+// 現在地取得ロジック
+async function getWeather() {
+    const desc = document.getElementById('weather-desc');
+    desc.textContent = "取得中...";
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                // 位置情報が取得できた場合
+                // 実際はここでAPIを叩きますが、2026/01/18現在の現在地データとして表示
+                updateWeatherUI("現在地（取得完了）", 10, "Clear");
+            },
+            (error) => {
+                // 取得失敗、または拒否された場合は東京にする
+                console.log("位置情報の取得に失敗しました。東京を表示します。");
+                updateWeatherUI("東京都", 8, "Cloudy");
+            }
+        );
+    } else {
+        // ブラウザが位置情報に対応していない場合も東京
+        updateWeatherUI("東京都", 8, "Cloudy");
+    }
+}
+
+// 初期化（HTML側のwindow.onloadなどで呼び出してください）
+window.onload = () => {
+    showFeature('timer-section');
+    if (typeof convertUnits === 'function') convertUnits();
+    getWeather(); // 起動時に現在地取得を試みる
+};
