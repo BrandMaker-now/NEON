@@ -1,14 +1,12 @@
-/* --- 以前いただいたデザインを忠実に再現 --- */
-
+/* 余計なものをすべて排除したネオンデザイン */
 body {
-    background: #222; /* 基本の背景色 */
-    color: #0f0;      /* ネオングリーン */
+    background: #222; 
+    color: #0f0;
     font-family: sans-serif;
     margin: 0;
     padding: 20px;
 }
 
-/* 機能一覧メニューのレイアウト */
 #feature-menu {
     margin-top: 40px;
 }
@@ -20,49 +18,31 @@ body {
     margin: 20px;
 }
 
-/* ボタンのスタイル（以前の指定通り） */
 .feature-btn {
-    background: #333;   /* ボタン背景 */
+    background: #333;
     padding: 20px;
     border-radius: 8px;
-    border: 1px solid #0f0; /* 緑の枠線 */
-    text-decoration: none;
+    border: 1px solid #0f0;
     font-weight: bold;
-    color: #0f0;        /* 緑文字 */
+    color: #0f0;
     text-align: center;
     cursor: pointer;
     transition: background 0.3s;
-    display: block;
 }
 
-/* ホバー時の反転（以前の指定通り） */
 .feature-btn:hover {
     background: #0f0;
     color: #222;
 }
 
-/* 機能コンテンツの表示切り替え */
+/* 機能の中身を表示するエリア */
 .feature-content {
-    display: none;      /* 基本は隠す */
+    display: none;
     margin-top: 30px;
     padding: 20px;
     border: 1px solid #0f0;
 }
 
-/* JSで active クラスがついた時だけ表示 */
 .feature-content.active {
     display: block;
-}
-
-/* タイマー表示などの文字色 */
-#timer-display {
-    color: #0f0;
-    font-size: 3rem;
-    text-align: center;
-}
-
-/* ロゴのスタイル */
-.logo {
-    color: #0f0;
-    text-align: center;
 }
