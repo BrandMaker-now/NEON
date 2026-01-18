@@ -33,12 +33,9 @@
     <!-- タイマー機能セクション -->
     <section id="timer-section" class="feature-content active">
         <div class="timer-wrapper">
-            <!-- ストップウォッチエリア -->
             <div class="timer-container stopwatch">
                 <h3>STOPWATCH</h3>
-                <p class="timer-message">
-                    スタートで計測開始、一時停止で停止します。リセットで00:00に戻ります。
-                </p>
+                <p class="timer-message">スタートで計測開始、一時停止で停止します。リセットで00:00に戻ります。</p>
                 <div id="stopwatch-display" class="display">00:00:00</div>
                 <div class="timer-controls">
                     <button id="sw-start-btn" class="feature-btn">スタート</button>
@@ -47,12 +44,9 @@
                 </div>
             </div>
 
-            <!-- カウントダウンエリア -->
             <div class="timer-container countdown">
                 <h3>COUNTDOWN</h3>
-                <p class="timer-message">
-                    時間を設定し、スタートでカウントダウンを開始します。
-                </p>
+                <p class="timer-message">時間を設定し、スタートでカウントダウンを開始します。</p>
                 <div class="countdown-controls-top">
                     <select id="countdown-hours-input" class="feature-input"></select>
                     <span>時間</span>
@@ -74,10 +68,7 @@
     <!-- 単位変換機能セクション -->
     <section id="unit-converter" class="feature-content">
         <h2>UNIT CONVERTER</h2>
-        <p class="converter-message">
-            使い方: 左側の入力欄に数値を入れて、単位をプルダウンで選択してください。<br>
-            結果は右側の入力欄に有効数字5桁で自動表示されます。（小数点以下の桁数は自動調整されます）
-        </p>
+        <p class="converter-message">使い方: 左側の入力欄に数値を入れて、単位をプルダウンで選択してください。</p>
         <div class="converter-wrapper">
             <input type="number" id="input-value" class="feature-input" value="1" oninput="convertUnits()">
             <select id="input-unit" class="feature-input" onchange="convertUnits()">
@@ -97,12 +88,12 @@
         </div>
     </section>
 
-    <!-- お天気セクション (2026年最新アップデート) -->
+    <!-- お天気機能セクション (多機能版) -->
     <section id="weather-api" class="feature-content">
         <h2>WEATHER REPORT</h2>
-        <p class="converter-message">都市名入力、または現在地(2026/01/18時点)から取得します。</p>
+        <p class="converter-message">都市名入力、または現在地(2026/01/18)から取得します。</p>
         <div class="converter-wrapper" style="margin-bottom: 20px;">
-            <input type="text" id="city-input" class="feature-input" placeholder="City Name (e.g. Kagoshima)" style="flex: 1;">
+            <input type="text" id="city-input" class="feature-input" placeholder="City Name (e.g. Tokyo)" style="flex: 1;">
             <button class="feature-btn" onclick="getWeatherByCity()">検索</button>
             <button class="feature-btn" onclick="getWeather()">現在地</button>
         </div>
@@ -129,54 +120,18 @@
         </div>
     </section>
 
-    <!-- 元のダミーセクション群 (位置調整用) -->
-    <section id="color-palette" class="feature-content">
-        <h2>COLOR PALETTE</h2>
-        <p class="converter-message">クリックでカラーコードをコピーできます。（※機能は未実装）</p>
-    </section>
-    
-    <section id="calculator" class="feature-content">
-        <h2>CALCULATOR</h2>
-        <p class="converter-message">シンプルな計算機です。（※機能は未実装）</p>
-    </section>
-    
-    <section id="study-counter" class="feature-content">
-        <h2>STUDY COUNTER</h2>
-        <p class="converter-message">学習時間を記録します。（※機能は未実装）</p>
-    </section>
-    
-    <section id="flashcards" class="feature-content">
-        <h2>FLASHCARDS</h2>
-        <p class="converter-message">単語カード機能です。（※機能は未実装）</p>
-    </section>
-    
-    <section id="random-picker" class="feature-content">
-        <h2>RANDOM PICKER</h2>
-        <p class="converter-message">項目の中からランダムに一つ選びます。（※機能は未実装）</p>
-    </section>
-    
-    <section id="bookmarks" class="feature-content">
-        <h2>BOOKMARKS</h2>
-        <p class="converter-message">お気に入りのリンクを保存します。（※機能は未実装）</p>
-    </section>
-    
-    <section id="progress-bar" class="feature-content">
-        <h2>PROGRESS BAR</h2>
-        <p class="converter-message">進捗バーの表示エリアです。（※機能は未実装）</p>
-    </section>
-
-    <section id="rss-reader" class="feature-content">
-        <h2>RSSリーダー</h2>
-        <p class="converter-message">RSSフィードを読み込みます。（※機能は未実装）</p>
-    </section>
-
-    <section id="voting-system" class="feature-content">
-        <h2>VOTING SYSTEM</h2>
-        <p class="converter-message">投票システムを構築します。（※機能は未実装）</p>
-    </section>
-
+    <!-- 元のダミーセクション群 -->
+    <section id="color-palette" class="feature-content"><h2>COLOR PALETTE</h2><p class="converter-message">機能は未実装</p></section>
+    <section id="calculator" class="feature-content"><h2>CALCULATOR</h2><p class="converter-message">機能は未実装</p></section>
+    <section id="study-counter" class="feature-content"><h2>STUDY COUNTER</h2><p class="converter-message">機能は未実装</p></section>
+    <section id="flashcards" class="feature-content"><h2>FLASHCARDS</h2><p class="converter-message">機能は未実装</p></section>
+    <section id="random-picker" class="feature-content"><h2>RANDOM PICKER</h2><p class="converter-message">機能は未実装</p></section>
+    <section id="bookmarks" class="feature-content"><h2>BOOKMARKS</h2><p class="converter-message">機能は未実装</p></section>
+    <section id="progress-bar" class="feature-content"><h2>PROGRESS BAR</h2><p class="converter-message">機能は未実装</p></section>
+    <section id="rss-reader" class="feature-content"><h2>RSSリーダー</h2><p class="converter-message">機能は未実装</p></section>
+    <section id="voting-system" class="feature-content"><h2>VOTING SYSTEM</h2><p class="converter-message">機能は未実装</p></section>
 </main>
 
-<script src="script.js"></script>
+<script src="Javascript"></script>
 </body>
 </html>
