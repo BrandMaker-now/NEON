@@ -23,9 +23,10 @@
         <button class="feature-btn" onclick="showFeature('flashcards')">フラッシュカード</button>
         <button class="feature-btn" onclick="showFeature('random-picker')">ランダム出題</button>
         <button class="feature-btn" onclick="showFeature('bookmarks')">お気に入り</button>
-        <button class="feature-btn" onclick="flickerFeature('rss-reader')">RSSリーダー</button>
-        <button class="feature-btn" onclick="flickerFeature('weather-api')">お天気</button>
-        <button class="feature-btn" onclick="flickerFeature('voting-system')">投票システム</button>
+        <!-- ★ここから下の3つのボタンのonclickをflickerFeatureからshowFeatureに変更しました★ -->
+        <button class="feature-btn" onclick="showFeature('rss-reader')">RSSリーダー</button>
+        <button class="feature-btn" onclick="showFeature('weather-api')">お天気</button>
+        <button class="feature-btn" onclick="showFeature('voting-system')">投票システム</button>
     </div>
 </nav>
 
@@ -39,7 +40,7 @@
                  <p class="timer-message">
                     スタートで計測開始、一時停止で停止します。リセットで00:00に戻ります。
                 </p>
-                <div id="stopwatch-display" class="display">00:00</div>
+                <div id="stopwatch-display" class="display">00:00:00</div>
                 <div class="timer-controls">
                     <button id="sw-start-btn" class="feature-btn">スタート</button>
                     <button id="sw-pause-btn" class="feature-btn" disabled>一時停止</button>
@@ -54,7 +55,6 @@
                     時間を設定し、スタートでカウントダウンを開始します。
                 </p>
                 <div class="countdown-controls-top">
-                    <!-- selectタグに hours を追加 -->
                     <select id="countdown-hours-input" class="feature-input"></select>
                     <span>時間</span>
                     <select id="countdown-minutes-input" class="feature-input"></select>
@@ -98,35 +98,83 @@
         </div>
     </section>
 
-    <!-- 他の機能セクション (空の状態) -->
-    <section id="color-palette" class="feature-content"><h2>COLOR PALETTE</h2></section>
-    <section id="calculator" class="feature-content"><h2>CALCULATOR</h2></section>
-    <section id="study-counter" class="feature-content"><h2>STUDY COUNTER</h2></section>
-    <section id="flashcards" class="feature-content"><h2>FLASHCARDS</h2></section>
-    <section id="random-picker" class="feature-content"><h2>RANDOM PICKER</h2></section>
-    <section id="bookmarks" class="feature-content"><h2>BOOKMARKS</h2></section>
-    <section id="progress-bar" class="feature-content"><h2>PROGRESS BAR</h2></section>
-    <section id="rss-reader" class="feature-content"><h2>RSSリーダー</h2></section>
-    <section id="weather-api" class="feature-content"><h2>お天気</h2></section>
-    <section id="voting-system" class="feature-content"><h2>VOTING SYSTEM</h2></section>
+    <!-- 他の機能セクション (ダミーコンテンツを追加して位置を調整) -->
+    
+    <section id="color-palette" class="feature-content">
+        <h2>COLOR PALETTE</h2>
+        <p class="converter-message">クリックでカラーコードをコピーできます。（※機能は未実装）</p>
+    </section>
+    
+    <section id="calculator" class="feature-content">
+        <h2>CALCULATOR</h2>
+        <p class="converter-message">シンプルな計算機です。（※機能は未実装）</p>
+    </section>
+    
+    <section id="study-counter" class="feature-content">
+        <h2>STUDY COUNTER</h2>
+        <p class="converter-message">学習時間を記録します。（※機能は未実装）</p>
+    </section>
+    
+    <section id="flashcards" class="feature-content">
+        <h2>FLASHCARDS</h2>
+        <p class="converter-message">単語カード機能です。（※機能は未実装）</p>
+    </section>
+    
+    <section id="random-picker" class="feature-content">
+        <h2>RANDOM PICKER</h2>
+        <p class="converter-message">項目の中からランダムに一つ選びます。（※機能は未実装）</p>
+    </section>
+    
+    <section id="bookmarks" class="feature-content">
+        <h2>BOOKMARKS</h2>
+        <p class="converter-message">お気に入りのリンクを保存します。（※機能は未実装）</p>
+    </section>
+    
+    <section id="progress-bar" class="feature-content">
+        <h2>PROGRESS BAR</h2>
+        <p class="converter-message">進捗バーの表示エリアです。（※機能は未実装）</p>
+    </section>
+
+    <!-- ご指摘の3つのセクション -->
+    <section id="rss-reader" class="feature-content">
+        <h2>RSSリーダー</h2>
+        <p class="converter-message">RSSフィードを読み込みます。（※機能は未実装）</p>
+    </section>
+
+    <section id="weather-api" class="feature-content">
+        <h2>お天気</h2>
+        <p class="converter-message">現在地のお天気を表示します。（※機能は未実装）</p>
+    </section>
+
+    <section id="voting-system" class="feature-content">
+        <h2>VOTING SYSTEM</h2>
+        <p class="converter-message">投票システムを構築します。（※機能は未実装）</p>
+    </section>
 
 </main>
 
 <script>
-    // 機能がないセクションをクリックしたときに点滅させるダミー関数
+    // 機能がないセクションをクリックしたときに点滅させるダミー関数 (これはもう使われませんが残しておきます)
     function flickerFeature(featureId) {
         showFeature(featureId);
         const target = document.getElementById(featureId);
-        target.style.transition = 'background 0.1s';
+        
+        const neonColor = '#0f0';
+        const neonBg = 'rgba(0, 255, 0, 0.05)';
+
+        target.style.transition = 'background 0.1s, box-shadow 0.1s';
         target.style.background = '#fff';
         target.style.color = '#222';
+        target.style.boxShadow = '0 0 20px #fff';
+        
         setTimeout(() => {
-             target.style.background = 'rgba(0, 255, 0, 0.05)';
-             target.style.color = '#0f0';
+             target.style.background = neonBg;
+             target.style.color = neonColor;
+             target.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.2)';
         }, 100);
     }
     
-    // --- 機能切り替えロジック (変更なし) ---
+    // --- 機能切り替えロジック ---
     function showFeature(featureId) {
         const contents = document.querySelectorAll('.feature-content');
         contents.forEach(content => {
@@ -138,7 +186,7 @@
         }
     }
 
-    // --- ストップウォッチ ロジック (変更なし) ---
+    // --- ストップウォッチ ロジック ---
     let swInterval = null;
     let swSeconds = 0;
     const swDisplay = document.getElementById('stopwatch-display');
@@ -167,7 +215,7 @@
         clearInterval(swInterval);
         swInterval = null;
         swSeconds = 0;
-        swDisplay.textContent = '00:00';
+        swDisplay.textContent = '00:00:00';
         swStartBtn.disabled = false; 
         swPauseBtn.disabled = true; 
     });
@@ -177,13 +225,12 @@
         const hours = Math.floor(swSeconds / 3600);
         const mins = Math.floor((swSeconds % 3600) / 60);
         const secs = swSeconds % 60;
-        // ストップウォッチの表示も H:M:S 形式に変更
         swDisplay.textContent = 
             `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
 
 
-    // --- カウントダウンタイマー ロジック (時間追加) ---
+    // --- カウントダウンタイマー ロジック ---
     let cdInterval = null;
     let cdSecondsRemaining = 0;
     const cdHoursInput = document.getElementById('countdown-hours-input');
@@ -272,7 +319,6 @@
         const hours = Math.floor(secondsTotal / 3600);
         const mins = Math.floor((secondsTotal % 3600) / 60);
         const secs = secondsTotal % 60;
-        // カウントダウンの表示も H:M:S 形式に変更
         cdDisplay.textContent = 
             `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
@@ -300,7 +346,6 @@
     window.onload = () => {
         showFeature('timer-section'); // タイマーを初期表示
         convertUnits(); // 単位変換の初期計算を実行
-        // updateCountdownDisplay(0); // H:M:S 形式の初期表示は 00:00:00 になるため不要
     };
 </script>
 
