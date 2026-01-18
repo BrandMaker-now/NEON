@@ -5,125 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEON PORTAL</title>
     <link rel="icon" href="mashiopi_favicon.ico" type="image/x-icon">
-    <style>
-        /* --- あなたのCSS（完全維持） --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background: #222;
-            color: #0f0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-        }
-
-        header {
-            border-bottom: 1px solid #0f0;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            text-align: center;
-            font-size: 2.5rem;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
-        }
-
-        main {
-            margin-top: 20px;
-            position: relative;
-            min-height: 400px;
-        }
-
-        #feature-menu {
-            margin-bottom: 20px;
-        }
-
-        .feature-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .feature-btn {
-            background: transparent;
-            border: 1px solid #0f0;
-            color: #0f0;
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
-            font-size: 0.9rem;
-        }
-
-        .feature-btn:hover:not(:disabled) {
-            background: #0f0;
-            color: #000;
-            box-shadow: 0 0 20px #0f0;
-            text-shadow: none;
-        }
-
-        .feature-btn:disabled {
-            border-color: #050;
-            color: #050;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
-        .feature-input {
-            background: #333;
-            border: 1px solid #0f0;
-            color: #0f0;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 1rem;
-            box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
-        }
-
-        .feature-content {
-            display: none;
-            padding: 20px 0;
-            background: rgba(0, 255, 0, 0.05); 
-            border-radius: 5px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-        }
-
-        .feature-content.active {
-            display: block;
-            position: static; 
-        }
-
-        h2, h3 {
-            color: #0ff;
-            margin-bottom: 15px;
-            border-bottom: 1px dashed #0ff;
-            padding-bottom: 5px;
-            margin-top: 0;
-        }
-
-        .timer-message, .converter-message {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin-bottom: 15px;
-        }
-
-        .timer-wrapper { display: flex; gap: 20px; flex-wrap: nowrap; justify-content: center; }
-        .timer-container { flex: 1; min-width: 350px; text-align: center; min-height: 250px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #0f0; padding: 15px; border-radius: 5px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); }
-        .display { font-size: 3rem; color: #0f0; min-height: 1.2em; display: flex; align-items: center; justify-content: center; margin: 15px 0; text-shadow: 0 0 10px #0f0; }
-        .timer-controls { display: flex; justify-content: space-between; gap: 10px; margin-top: auto; }
-        .countdown-controls-top { display: flex; justify-content: center; align-items: center; gap: 5px; margin-bottom: 10px; }
-        .countdown-controls-top select { background: #333; border: 1px solid #0f0; color: #0f0; padding: 10px 5px; border-radius: 4px; font-size: 1rem; cursor: pointer; text-align: right; }
-        .countdown-controls-top span { font-size: 0.9rem; margin-right: 5px; }
-        .converter-wrapper { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -148,12 +30,12 @@
 </nav>
 
 <main>
-    <!-- タイマー機能セクション -->
+    <!-- 1. タイマー -->
     <section id="timer-section" class="feature-content active">
         <div class="timer-wrapper">
             <div class="timer-container stopwatch">
                 <h3>STOPWATCH</h3>
-                 <p class="timer-message">スタートで計測開始。リセットで00:00に戻ります。</p>
+                <p class="timer-message">スタートで計測開始。リセットで00:00に戻ります。</p>
                 <div id="stopwatch-display" class="display">00:00:00</div>
                 <div class="timer-controls">
                     <button id="sw-start-btn" class="feature-btn">スタート</button>
@@ -161,7 +43,6 @@
                     <button id="sw-reset-btn" class="feature-btn">リセット</button>
                 </div>
             </div>
-
             <div class="timer-container countdown">
                 <h3>COUNTDOWN</h3>
                 <p class="timer-message">時間を設定し、スタートで開始します。</p>
@@ -183,10 +64,9 @@
         </div>
     </section>
     
-    <!-- 単位変換機能セクション -->
+    <!-- 2. 単位変換 -->
     <section id="unit-converter" class="feature-content">
         <h2>UNIT CONVERTER</h2>
-        <p class="converter-message">数値を入力して単位を選択してください。</p>
         <div class="converter-wrapper">
             <input type="number" id="input-value" class="feature-input" value="1" oninput="convertUnits()">
             <select id="input-unit" class="feature-input" onchange="convertUnits()">
@@ -196,7 +76,7 @@
                 <option value="in">インチ (in)</option>
             </select>
             <span>=</span>
-            <input type="text" id="output-value" class="feature-input" readonly style="background: #444;">
+            <input type="text" id="output-value" class="feature-input" readonly>
             <select id="output-unit" class="feature-input" onchange="convertUnits()">
                 <option value="cm">センチメートル (cm)</option>
                 <option value="m">メートル (m)</option>
@@ -206,174 +86,91 @@
         </div>
     </section>
 
-    <!-- お天気機能セクション (ここを実装) -->
+    <!-- 3. お天気 (アップデート版) -->
     <section id="weather-api" class="feature-content">
         <h2>WEATHER REPORT</h2>
-        <p class="converter-message">2026年現在の現在地の天気をリアルタイムで取得します。</p>
-        <div class="timer-container" style="min-height: 200px;">
-            <div id="weather-location" style="color: #0ff; font-size: 1.5rem; margin-top: 15px;">Location: --</div>
-            <div id="weather-display" class="display" style="font-size: 2.5rem;">--°C</div>
-            <div id="weather-desc" style="text-transform: uppercase; letter-spacing: 2px;">READY</div>
+        <p class="converter-message">都市名を入力するか、現在地から天気を取得します。</p>
+        <div class="converter-wrapper" style="margin-bottom: 20px;">
+            <input type="text" id="city-input" class="feature-input" placeholder="都市名(例: Tokyo)" style="flex: 1;">
+            <button class="feature-btn" onclick="getWeatherByCity()">検索</button>
+            <button class="feature-btn" onclick="getWeather()">現在地</button>
         </div>
-        <div class="timer-controls" style="margin-top: 20px; justify-content: center;">
-            <button class="feature-btn" onclick="getWeather()">情報を更新</button>
+        <div class="timer-wrapper" style="gap: 15px; flex-direction: column;">
+            <div class="timer-container" style="min-height: 150px; width: 100%;">
+                <h3 id="weather-location" style="border:none; font-size: 1.2rem;">Location: --</h3>
+                <div id="weather-display" class="display" style="font-size: 2.5rem; margin: 10px 0;">--°C</div>
+                <div id="weather-desc" style="text-transform: uppercase; letter-spacing: 2px;">READY</div>
+            </div>
+            <!-- 3日間予報グリッド -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%;">
+                <div class="timer-container" style="min-height: 100px; min-width: auto; padding: 10px;">
+                    <div style="color: #0ff; font-size: 0.8rem;">明日</div>
+                    <div id="forecast-1-temp" style="font-size: 1.2rem; color: #0f0;">--°C</div>
+                    <div id="forecast-1-desc" style="font-size: 0.7rem;">--</div>
+                </div>
+                <div class="timer-container" style="min-height: 100px; min-width: auto; padding: 10px;">
+                    <div style="color: #0ff; font-size: 0.8rem;">明後日</div>
+                    <div id="forecast-2-temp" style="font-size: 1.2rem; color: #0f0;">--°C</div>
+                    <div id="forecast-2-desc" style="font-size: 0.7rem;">--</div>
+                </div>
+                <div class="timer-container" style="min-height: 100px; min-width: auto; padding: 10px;">
+                    <div style="color: #0ff; font-size: 0.8rem;">3日後</div>
+                    <div id="forecast-3-temp" style="font-size: 1.2rem; color: #0f0;">--°C</div>
+                    <div id="forecast-3-desc" style="font-size: 0.7rem;">--</div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- その他（未実装のまま維持） -->
-    <section id="color-palette" class="feature-content"><h2>COLOR PALETTE</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="calculator" class="feature-content"><h2>CALCULATOR</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="study-counter" class="feature-content"><h2>STUDY COUNTER</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="flashcards" class="feature-content"><h2>FLASHCARDS</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="random-picker" class="feature-content"><h2>RANDOM PICKER</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="bookmarks" class="feature-content"><h2>BOOKMARKS</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="rss-reader" class="feature-content"><h2>RSSリーダー</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="voting-system" class="feature-content"><h2>VOTING SYSTEM</h2><p class="converter-message">機能は未実装</p></section>
+    <!-- 4. 色見本帳 -->
+    <section id="color-palette" class="feature-content">
+        <h2>COLOR PALETTE</h2>
+        <p class="converter-message">クリックでカラーコードをコピーできます。（※機能は未実装）</p>
+    </section>
 
+    <!-- 5. 計算機 -->
+    <section id="calculator" class="feature-content">
+        <h2>CALCULATOR</h2>
+        <p class="converter-message">シンプルな計算機です。（※機能は未実装）</p>
+    </section>
+
+    <!-- 6. 学習記録 -->
+    <section id="study-counter" class="feature-content">
+        <h2>STUDY COUNTER</h2>
+        <p class="converter-message">学習時間を記録します。（※機能は未実装）</p>
+    </section>
+
+    <!-- 7. フラッシュカード -->
+    <section id="flashcards" class="feature-content">
+        <h2>FLASHCARDS</h2>
+        <p class="converter-message">単語カード機能です。（※機能は未実装）</p>
+    </section>
+
+    <!-- 8. ランダム出題 -->
+    <section id="random-picker" class="feature-content">
+        <h2>RANDOM PICKER</h2>
+        <p class="converter-message">項目の中からランダムに一つ選びます。（※機能は未実装）</p>
+    </section>
+
+    <!-- 9. お気に入り -->
+    <section id="bookmarks" class="feature-content">
+        <h2>BOOKMARKS</h2>
+        <p class="converter-message">お気に入りのリンクを保存します。（※機能は未実装）</p>
+    </section>
+
+    <!-- 10. RSSリーダー -->
+    <section id="rss-reader" class="feature-content">
+        <h2>RSSリーダー</h2>
+        <p class="converter-message">RSSフィードを読み込みます。（※機能は未実装）</p>
+    </section>
+
+    <!-- 11. 投票システム -->
+    <section id="voting-system" class="feature-content">
+        <h2>VOTING SYSTEM</h2>
+        <p class="converter-message">投票システムを構築します。（※機能は未実装）</p>
+    </section>
 </main>
 
-<script>
-    /* --- あなたのJavaScript（完全維持） --- */
-    function showFeature(featureId) {
-        const contents = document.querySelectorAll('.feature-content');
-        contents.forEach(content => { content.classList.remove('active'); });
-        const target = document.getElementById(featureId);
-        if (target) { target.classList.add('active'); }
-    }
-
-    let swInterval = null;
-    let swSeconds = 0;
-    const swDisplay = document.getElementById('stopwatch-display');
-    const swStartBtn = document.getElementById('sw-start-btn');
-    const swPauseBtn = document.getElementById('sw-pause-btn');
-    const swResetBtn = document.getElementById('sw-reset-btn');
-
-    swStartBtn.addEventListener('click', () => {
-        if (!swInterval) {
-            swInterval = setInterval(updateStopwatch, 1000);
-            swStartBtn.disabled = true;
-            swPauseBtn.disabled = false; 
-        }
-    });
-
-    swPauseBtn.addEventListener('click', () => {
-        if (swInterval) {
-            clearInterval(swInterval);
-            swInterval = null;
-            swStartBtn.disabled = false; 
-            swPauseBtn.disabled = true; 
-        }
-    });
-
-    swResetBtn.addEventListener('click', () => {
-        clearInterval(swInterval);
-        swInterval = null;
-        swSeconds = 0;
-        swDisplay.textContent = '00:00:00';
-        swStartBtn.disabled = false; 
-        swPauseBtn.disabled = true; 
-    });
-    
-    function updateStopwatch() {
-        swSeconds++;
-        const hours = Math.floor(swSeconds / 3600);
-        const mins = Math.floor((swSeconds % 3600) / 60);
-        const secs = swSeconds % 60;
-        swDisplay.textContent = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    let cdInterval = null;
-    let cdSecondsRemaining = 0;
-    const cdHoursInput = document.getElementById('countdown-hours-input');
-    const cdMinutesInput = document.getElementById('countdown-minutes-input');
-    const cdSecondsInput = document.getElementById('countdown-seconds-input');
-    const cdDisplay = document.getElementById('countdown-display');
-    const cdStartBtn = document.getElementById('cd-start-btn');
-    const cdPauseBtn = document.getElementById('cd-pause-btn');
-    const cdResetBtn = document.getElementById('cd-reset-btn');
-
-    function populateSelect(selectEl, max) {
-        for (let i = 0; i <= max; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = i.toString().padStart(2, '0');
-            selectEl.appendChild(option);
-        }
-    }
-    populateSelect(cdHoursInput, 99); 
-    populateSelect(cdMinutesInput, 59);
-    populateSelect(cdSecondsInput, 59);
-
-    cdStartBtn.addEventListener('click', () => {
-        if (!cdInterval) {
-            if (cdSecondsRemaining <= 0) {
-                const hours = parseInt(cdHoursInput.value) || 0;
-                const minutes = parseInt(cdMinutesInput.value) || 0;
-                const seconds = parseInt(cdSecondsInput.value) || 0;
-                cdSecondsRemaining = hours * 3600 + minutes * 60 + seconds;
-                if (cdSecondsRemaining <= 0) return;
-            }
-            cdInterval = setInterval(tick, 1000);
-            cdStartBtn.disabled = true;
-            cdPauseBtn.disabled = false;
-        }
-    });
-
-    cdPauseBtn.addEventListener('click', () => {
-        if (cdInterval) { clearInterval(cdInterval); cdInterval = null; cdStartBtn.disabled = false; cdPauseBtn.disabled = true; }
-    });
-
-    cdResetBtn.addEventListener('click', () => {
-        clearInterval(cdInterval); cdInterval = null; cdSecondsRemaining = 0; updateCountdownDisplay(0);
-        cdStartBtn.disabled = false; cdPauseBtn.disabled = true;
-    });
-    
-    function tick() {
-        cdSecondsRemaining--;
-        if (cdSecondsRemaining < 0) {
-            clearInterval(cdInterval); cdInterval = null; cdDisplay.textContent = "DONE!"; cdStartBtn.disabled = false; cdPauseBtn.disabled = true;
-        } else { updateCountdownDisplay(cdSecondsRemaining); }
-    }
-    
-    function updateCountdownDisplay(secondsTotal) {
-        const hours = Math.floor(secondsTotal / 3600);
-        const mins = Math.floor((secondsTotal % 3600) / 60);
-        const secs = secondsTotal % 60;
-        cdDisplay.textContent = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    const conversionRates = { 'cm': 0.01, 'm': 1, 'km': 1000, 'in': 0.0254 };
-    function convertUnits() {
-        const val = parseFloat(document.getElementById('input-value').value) || 0;
-        const from = document.getElementById('input-unit').value;
-        const to = document.getElementById('output-unit').value;
-        const result = (val * conversionRates[from]) / conversionRates[to];
-        document.getElementById('output-value').value = parseFloat(result.toPrecision(5)).toString(); 
-    }
-
-    /* --- お天気機能ロジック (追加) --- */
-    async function getWeather() {
-        const display = document.getElementById('weather-display');
-        const desc = document.getElementById('weather-desc');
-        const loc = document.getElementById('weather-location');
-        desc.textContent = "FETCHING...";
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(pos => {
-                // 2026年のデモ用データ（本来はここでAPI通信）
-                const temp = Math.floor(Math.random() * 10) + 20; 
-                loc.textContent = "Location: Kagoshima, JP";
-                display.textContent = `${temp}°C`;
-                desc.textContent = "Clear Sky";
-            }, () => { desc.textContent = "LOCATION ERROR"; });
-        }
-    }
-
-    window.onload = () => {
-        showFeature('timer-section');
-        convertUnits();
-        getWeather();
-    };
-</script>
+<script src="script.js"></script>
 </body>
 </html>
