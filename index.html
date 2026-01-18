@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON PORTAL</title>
+    <!-- ここで style.css を読み込みます -->
+    <link rel="stylesheet" href="style.css">
+    <!-- JavaScriptファイルは<body>の閉じタグ直前が良いですが、とりあえずここで -->
+    <!-- <script src="script.js"></script> --> 
+</head>
+<body>
+
 <header>
     <h1 class="logo">NEON PORTAL</h1>
 </header>
@@ -20,16 +33,31 @@
 </nav>
 
 <main>
-    <section id="timer-section" class="feature-content">
+    <section id="timer-section" class="feature-content active">
         <div class="timer-container">
             <div id="timer-display">00:00</div>
             <p>TIMER ACTIVE</p>
         </div>
     </section>
-
-    <!-- 各機能の入れ物 -->
     <section id="unit-converter" class="feature-content"><h2>UNIT CONVERTER</h2></section>
     <section id="color-palette" class="feature-content"><h2>COLOR PALETTE</h2></section>
     <section id="voting-system" class="feature-content"><h2>VOTING SYSTEM</h2></section>
-    <!-- 他のセクションも同様 -->
 </main>
+
+<!-- JSのコードはここにペーストするか、外部ファイルとして読み込んでください -->
+<script>
+// 機能切り替えだけを行うJSコード
+function showFeature(featureId) {
+    const contents = document.querySelectorAll('.feature-content');
+    contents.forEach(content => {
+        content.classList.remove('active');
+    });
+    const target = document.getElementById(featureId);
+    if (target) {
+        target.classList.add('active');
+    }
+}
+</script>
+
+</body>
+</html>
