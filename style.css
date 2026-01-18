@@ -1,140 +1,85 @@
-/* --- 全体共通のリセットと基本スタイル --- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* --- 機能切り替えロジック --- */
+function showFeature(featureId) {
+    const contents = document.querySelectorAll('.feature-content');
+    contents.forEach(content => { content.classList.remove('active'); });
+    const target = document.getElementById(featureId);
+    if (target) {
+        target.classList.add('active');
+        target.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
-body {
-    background: #222;      /* 黒に近い背景 */
-    color: #0f0;           /* ネオングリーンを基本色に */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px;
+/* --- ストップウォッチ --- */
+let swInterval = null, swSeconds = 0;
+const swDisplay = document.getElementById('stopwatch-display');
+const swStartBtn = document.getElementById('sw-start-btn');
+const swPauseBtn = document.getElementById('sw-pause-btn');
+
+swStartBtn.addEventListener('click', () => {
+    if (!swInterval) {
+        swInterval = setInterval(() => {
+            swSeconds++;
+            const h = Math.floor(swSeconds / 3600).toString().padStart(2, '0');
+            const m = Math.floor((swSeconds % 3600) / 60).toString().padStart(2, '0');
+            const s = (swSeconds % 60).toString().padStart(2, '0');
+            swDisplay.textContent = `${h}:${m}:${s}`;
+        }, 1000);
+        swStartBtn.disabled = true; swPauseBtn.disabled = false;
+    }
+});
+
+swPauseBtn.addEventListener('click', () => {
+    clearInterval(swInterval); swInterval = null; swStartBtn.disabled = false; swPauseBtn.disabled = true;
+});
+
+document.getElementById('sw-reset-btn').addEventListener('click', () => {
+    clearInterval(swInterval); swInterval = null; swSeconds = 0;
+    swDisplay.textContent = '00:00:00'; swStartBtn.disabled = false; swPauseBtn.disabled = true;
+});
+
+/* --- カウントダウン --- */
+const cdHoursInput = document.getElementById('countdown-hours-input');
+const cdMinutesInput = document.getElementById('countdown-minutes-input');
+const cdSecondsInput = document.getElementById('countdown-seconds-input');
+function populateSelect(selectEl, max) {
+    for (let i = 0; i <= max; i++) {
+        const option = document.createElement('option');
+        option.value = i; option.textContent = i.toString().padStart(2, '0');
+        selectEl.appendChild(option);
+    }
+}
+populateSelect(cdHoursInput, 99); populateSelect(cdMinutesInput, 59); populateSelect(cdSecondsInput, 59);
+
+/* --- 単位変換 --- */
+const rates = { 'cm': 0.01, 'm': 1, 'km': 1000, 'in': 0.0254 };
+function convertUnits() {
+    const val = parseFloat(document.getElementById('input-value').value) || 0;
+    const from = document.getElementById('input-unit').value;
+    const to = document.getElementById('output-unit').value;
+    const result = (val * rates[from]) / rates[to];
+    document.getElementById('output-value').value = parseFloat(result.toPrecision(5)).toString();
 }
 
-header {
-    border-bottom: 1px solid #0f0;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+/* --- お天気ロジック --- */
+function updateWeatherUI(cityName, currentTemp, condition) {
+    document.getElementById('weather-location').textContent = `Location: ${cityName}`;
+    document.getElementById('weather-display').textContent = `${currentTemp}°C`;
+    document.getElementById('weather-desc').textContent = condition;
+    for(let i=1; i<=3; i++) {
+        document.getElementById(`forecast-${i}-temp`).textContent = `${currentTemp + (i * 2)}°C`;
+    }
+}
+function getWeatherByCity() {
+    const city = document.getElementById('city-input').value;
+    if (!city) return alert("都市名を入力してください");
+    updateWeatherUI(city.toUpperCase(), 15, "SUNNY");
+}
+async function getWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+            updateWeatherUI("KAGOSHIMA, JP", 10, "CLEAR SKY");
+        }, () => { document.getElementById('weather-desc').textContent = "LOCATION ERROR"; });
+    }
 }
 
-.logo {
-    text-align: center;
-    font-size: 2.5rem;
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* ロゴにネオンの光彩 */
-}
-
-a {
-    color: #0ff; /* リンクはネオンシアンなど別色にしても良い */
-    text-decoration: none;
-}
-
-main {
-    margin-top: 20px;
-    position: relative; /* ★ここが重要: feature-contentの絶対位置の基準になる */
-    min-height: 400px; /* コンテンツエリアの最低限の高さを確保 */
-}
-
-/* --- 機能メニュー (nav) --- */
-#feature-menu {
-    margin-bottom: 20px;
-}
-
-.feature-grid {
-    display: flex;
-    flex-wrap: wrap; /* 画面幅に合わせて折り返す */
-    gap: 10px;
-    justify-content: center;
-}
-
-/* --- ボタンのスタイル (ネオンデザイン) --- */
-.feature-btn {
-    background: transparent; /* 背景は透明 */
-    border: 1px solid #0f0;  /* 枠線をネオングリーン */
-    color: #0f0;             /* 文字色もネオングリーン */
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: all 0.3s ease; /* ホバー時の変化をスムーズに */
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* 文字にネオンの影 */
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.4); /* 外側にネオンの光彩 */
-    font-size: 0.9rem;
-}
-
-/* ボタンにマウスが乗った時（ホバー時） */
-.feature-btn:hover:not(:disabled) {
-    background: #0f0;       /* 背景をグリーンで埋める */
-    color: #000;            /* 文字色を黒にして目立たせる */
-    box-shadow: 0 0 20px #0f0; /* より強く光らせる */
-    text-shadow: none;      /* 文字の影は消す */
-}
-
-/* ボタンが無効（disabled）な時 */
-.feature-btn:disabled {
-    border-color: #050;
-    color: #050;
-    box-shadow: none; /* 光彩を消す */
-    cursor: not-allowed;
-}
-
-/* --- 入力フィールド (Input/Select/Textarea) のスタイル --- */
-.feature-input {
-    background: #333;
-    border: 1px solid #0f0;
-    color: #0f0;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 1rem;
-    /* ネオンの光彩を追加 */
-    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
-}
-
-/* --- 各機能セクションのスタイル --- */
-.feature-content {
-    display: none; /* 初期状態は非表示 */
-    padding: 20px 0;
-    background: rgba(0, 255, 0, 0.05); 
-    border-radius: 5px;
-    
-    /* ★ここが重要: すべてのセクションを同じ開始位置(mainの左上)に配置 */
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-}
-
-.feature-content.active {
-    display: block; /* activeクラスがついたものだけ表示 */
-    position: static; /* activeな時だけ通常の流れに戻すか、absoluteのままにするか選択 */
-    /* position: static; にするとmainのmin-heightが機能しなくなります。
-       position: absolute; のままにして、コンテンツの高さに合わせてmainの高さを調整するJSを入れるのが理想ですが、
-       ここではCSSのみで対応するため、一旦 absolute のままにします */
-}
-
-h2, h3 {
-    color: #0ff; /* セクション見出しはシアン系のネオンカラー */
-    margin-bottom: 15px;
-    border-bottom: 1px dashed #0ff;
-    padding-bottom: 5px;
-    margin-top: 0; /* タイトルの上マージンをリセットして揃える */
-}
-
-.timer-message, .converter-message {
-    font-size: 0.9rem;
-    color: #aaa;
-    margin-bottom: 15px;
-}
-
-/* --- タイマーセクション固有のスタイル --- */
-/* (以下略 - 変更なし) */
-.timer-wrapper { display: flex; gap: 20px; flex-wrap: nowrap; justify-content: center; }
-.timer-container { flex: 1; min-width: 350px; text-align: center; min-height: 250px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #0f0; padding: 15px; border-radius: 5px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); }
-.display { font-size: 3rem; color: #0f0; min-height: 1.2em; display: flex; align-items: center; justify-content: center; margin: 15px 0; text-shadow: 0 0 10px #0f0; }
-.timer-controls { display: flex; justify-content: space-between; gap: 10px; margin-top: auto; }
-.countdown-controls-top { display: flex; justify-content: center; align-items: center; gap: 5px; margin-bottom: 10px; }
-.countdown-controls-top select { background: #333; border: 1px solid #0f0; color: #0f0; padding: 10px 5px; border-radius: 4px; font-size: 1rem; cursor: pointer; text-align: right; }
-.countdown-controls-top span { font-size: 0.9rem; margin-right: 5px; }
-.converter-wrapper { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-#output-value { background: #444; cursor: default; }
-.color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-.color-card { padding: 20px; text-align: center; border-radius: 5px; cursor: pointer; box-shadow: 0 0 10px rgba(255, 255, 255, 0.3) inset; }
-
+window.onload = () => { showFeature('timer-section'); convertUnits(); getWeather(); };
