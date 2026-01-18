@@ -38,3 +38,8 @@ footer {
     text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
 }
 
+footer p {
+    line-height: 1; /* 行の高さをフォントサイズと同じにする */
+    margin: 0; /* 場合によってはデフォルトのマージンも消す */
+    padding: 0;
+}
