@@ -30,7 +30,7 @@
 </nav>
 
 <main>
-    <!-- タイマー機能セクション -->
+    <!-- タイマー機能セクション (ストップウォッチとカウントダウンを配置) -->
     <section id="timer-section" class="feature-content active">
         <div class="timer-wrapper">
             <!-- ストップウォッチエリア -->
@@ -47,11 +47,20 @@
             <!-- カウントダウンエリア -->
             <div class="timer-container countdown">
                 <h3>COUNTDOWN</h3>
-                <p class="input-message">※半角数字で入力してください</p>
-                <div class="countdown-inputs">
-                    <input type="number" id="countdown-minutes-input" placeholder="分" min="0" max="99" value="0">
-                    <span>:</span>
-                    <input type="number" id="countdown-seconds-input" placeholder="秒" min="0" max="59" value="0">
+                <p class="input-message">※半角数字で入力またはプルダウン選択</p>
+                <div class="countdown-controls-top">
+                    <div class="countdown-inputs">
+                        <input type="number" id="countdown-minutes-input" placeholder="分" min="0" max="99" value="0">
+                        <span>:</span>
+                        <input type="number" id="countdown-seconds-input" placeholder="秒" min="0" max="59" value="0">
+                    </div>
+                    <select id="countdown-preset" class="feature-btn">
+                        <option value="0">プリセット選択</option>
+                        <option value="300">5分</option>
+                        <option value="600">10分</option>
+                        <option value="900">15分</option>
+                        <option value="1800">30分</option>
+                    </select>
                 </div>
                 <div id="countdown-display" class="display">00:00</div>
                 <div class="timer-controls">
@@ -91,7 +100,7 @@
         }
     }
 
-    // --- ストップウォッチ ロジック (ボタン固定) ---
+    // --- ストップウォッチ ロジック (変更なし) ---
     let swInterval = null;
     let swSeconds = 0;
     const swDisplay = document.getElementById('stopwatch-display');
@@ -102,8 +111,8 @@
     swStartBtn.addEventListener('click', () => {
         if (!swInterval) {
             swInterval = setInterval(updateStopwatch, 1000);
-            swStartBtn.disabled = true; // スタートボタンを無効化
-            swPauseBtn.disabled = false; // 一時停止ボタンを有効化
+            swStartBtn.disabled = true; 
+            swPauseBtn.disabled = false; 
         }
     });
 
@@ -111,8 +120,8 @@
         if (swInterval) {
             clearInterval(swInterval);
             swInterval = null;
-            swStartBtn.disabled = false; // スタートボタンを有効化
-            swPauseBtn.disabled = true; // 一時停止ボタンを無効化
+            swStartBtn.disabled = false; 
+            swPauseBtn.disabled = true; 
         }
     });
 
@@ -121,8 +130,8 @@
         swInterval = null;
         swSeconds = 0;
         swDisplay.textContent = '00:00';
-        swStartBtn.disabled = false; // スタートボタンを有効化
-        swPauseBtn.disabled = true; // 一時停止ボタンを無効化
+        swStartBtn.disabled = false; 
+        swPauseBtn.disabled = true; 
     });
     
     function updateStopwatch() {
@@ -134,11 +143,12 @@
     }
 
 
-    // --- カウントダウンタイマー ロジック (ボタン固定, 入力制御) ---
+    // --- カウントダウンタイマー ロジック (プルダウン追加) ---
     let cdInterval = null;
     let cdSecondsRemaining = 0;
     const cdMinutesInput = document.getElementById('countdown-minutes-input');
     const cdSecondsInput = document.getElementById('countdown-seconds-input');
+    const cdPresetSelect = document.getElementById('countdown-preset');
     const cdDisplay = document.getElementById('countdown-display');
     const cdStartBtn = document.getElementById('cd-start-btn');
     const cdPauseBtn = document.getElementById('cd-pause-btn');
@@ -159,22 +169,35 @@
     cdMinutesInput.addEventListener('input', enforceHalfWidthNumeric);
     cdSecondsInput.addEventListener('input', enforceHalfWidthNumeric);
 
+    // プリセット選択時の処理
+    cdPresetSelect.addEventListener('change', (event) => {
+        const totalSeconds = parseInt(event.target.value);
+        if (totalSeconds > 0) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            cdMinutesInput.value = minutes;
+            cdSecondsInput.value = seconds;
+            updateCountdownDisplay(totalSeconds); // 表示も更新
+            cdPresetSelect.value = 0; // 選択肢をリセット
+        }
+    });
+
 
     cdStartBtn.addEventListener('click', () => {
         if (!cdInterval) {
-            // 初回スタート時、または一時停止からの再開時
             if (cdSecondsRemaining <= 0) {
                 const minutes = parseInt(cdMinutesInput.value) || 0;
                 const seconds = parseInt(cdSecondsInput.value) || 0;
                 cdSecondsRemaining = minutes * 60 + seconds;
-                if (cdSecondsRemaining <= 0) return; // 時間が0なら何もしない
+                if (cdSecondsRemaining <= 0) return;
             }
 
             cdInterval = setInterval(tick, 1000);
-            cdStartBtn.disabled = true; // スタート無効化
-            cdPauseBtn.disabled = false; // 一時停止有効化
-            cdMinutesInput.disabled = true; // 入力欄無効化
+            cdStartBtn.disabled = true;
+            cdPauseBtn.disabled = false;
+            cdMinutesInput.disabled = true;
             cdSecondsInput.disabled = true;
+            cdPresetSelect.disabled = true;
         }
     });
 
@@ -182,8 +205,8 @@
         if (cdInterval) {
             clearInterval(cdInterval);
             cdInterval = null;
-            cdStartBtn.disabled = false; // スタート有効化
-            cdPauseBtn.disabled = true; // 一時停止無効化
+            cdStartBtn.disabled = false;
+            cdPauseBtn.disabled = true;
         }
     });
 
@@ -191,11 +214,12 @@
         clearInterval(cdInterval);
         cdInterval = null;
         cdSecondsRemaining = 0;
-        updateCountdownDisplay(); // 00:00 に戻す
-        cdStartBtn.disabled = false; // スタート有効化
-        cdPauseBtn.disabled = true; // 一時停止無効化
-        cdMinutesInput.disabled = false; // 入力欄有効化
+        updateCountdownDisplay(0); 
+        cdStartBtn.disabled = false;
+        cdPauseBtn.disabled = true;
+        cdMinutesInput.disabled = false;
         cdSecondsInput.disabled = false;
+        cdPresetSelect.disabled = false;
         cdMinutesInput.value = 0; 
         cdSecondsInput.value = 0;
     });
@@ -203,7 +227,6 @@
     function tick() {
         cdSecondsRemaining--;
         if (cdSecondsRemaining < 0) {
-            // 完了時
             clearInterval(cdInterval);
             cdInterval = null;
             cdDisplay.textContent = "DONE!";
@@ -211,15 +234,15 @@
             cdPauseBtn.disabled = true;
             cdMinutesInput.disabled = false;
             cdSecondsInput.disabled = false;
-            // アラームを鳴らすなど
+            cdPresetSelect.disabled = false;
         } else {
-            updateCountdownDisplay();
+            updateCountdownDisplay(cdSecondsRemaining);
         }
     }
     
-    function updateCountdownDisplay() {
-        const mins = Math.floor(cdSecondsRemaining / 60);
-        const secs = cdSecondsRemaining % 60;
+    function updateCountdownDisplay(secondsTotal) {
+        const mins = Math.floor(secondsTotal / 60);
+        const secs = secondsTotal % 60;
         cdDisplay.textContent = 
             `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
@@ -227,8 +250,8 @@
 
     // ページ読み込み時の初期設定
     window.onload = () => {
-        showFeature('timer-section'); // タイマーを初期表示
-        updateCountdownDisplay(); // 初期表示を00:00にする
+        showFeature('timer-section'); 
+        updateCountdownDisplay(0); 
     };
 </script>
 
