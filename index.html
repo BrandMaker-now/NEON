@@ -77,7 +77,6 @@
     <section id="unit-converter" class="feature-content">
         <h2>UNIT CONVERTER</h2>
         <div class="converter-wrapper">
-            <!-- oninput および onchange 属性を追加 -->
             <input type="number" id="input-value" class="feature-input" value="1" oninput="convertUnits()">
             <select id="input-unit" class="feature-input" onchange="convertUnits()">
                 <option value="cm">センチメートル (cm)</option>
@@ -269,7 +268,7 @@
     }
 
 
-    // --- 単位変換ロジック ---
+    // --- 単位変換ロジック (小数点桁数を8に変更) ---
     const inputValueEl = document.getElementById('input-value');
     const inputUnitEl = document.getElementById('input-unit');
     const outputValueEl = document.getElementById('output-value');
@@ -290,7 +289,7 @@
         const valueInMeters = inputValue * conversionRates[inputUnit];
         const outputValue = valueInMeters / conversionRates[outputUnit];
 
-        outputValueEl.value = outputValue.toFixed(4); // 小数点4桁で表示
+        outputValueEl.value = outputValue.toFixed(8); // 小数点8桁で表示
     }
     // イベントリスナーはHTMLタグの属性 (oninput, onchange) で設定済みです
 
