@@ -1,50 +1,30 @@
-let startTime;
-let updatedTime;
-let difference = 0;
-let tInterval;
-let running = false;
-const display = document.getElementById('timer-display');
-const startButton = document.getElementById('start-button');
-const pauseButton = document.getElementById('pause-button');
-const resetButton = document.getElementById('reset-button');
+// ... (既存のタイマーコードはそのまま残す) ...
 
-function startTimer() {
-  if (!running) {
-    startTime = Date.now() - difference;
-    tInterval = setInterval(updateTimer, 10);
-    running = true;
-    startButton.disabled = true;
-    pauseButton.disabled = false;
-  }
+/* --- 機能切り替えとダークモードのロジックをここに追加 --- */
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+const body = document.body;
+
+// ダークモード切り替え機能
+darkModeToggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    // ブラウザに設定を記憶させる
+    if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+    }
+});
+
+// ページ読み込み時に記憶した設定を適用
+if (localStorage.getItem('darkMode') === 'enabled') {
+    body.classList.add('dark-mode');
 }
 
-function pauseTimer() {
-  if (running) {
-    clearInterval(tInterval);
-    difference = Date.now() - startTime;
-    running = false;
-    startButton.disabled = false;
-    pauseButton.disabled = true;
-  }
-}
+// 機能表示切り替え（タイマーだけ表示する例）
+const timerSection = document.getElementById('timer-section');
 
-function resetTimer() {
-  clearInterval(tInterval);
-  running = false;
-  difference = 0;
-  display.textContent = "00:00";
-  startButton.disabled = false;
-  pauseButton.disabled = false;
-}
+// 初期表示でメニューだけ見せて、機能は隠す
+timerSection.style.display = 'block'; // デフォルトでタイマーを表示したい場合
+document.getElementById('feature-menu').style.display = 'block';
 
-function updateTimer() {
-  updatedTime = Date.now() - startTime;
-  const minutes = Math.floor(updatedTime / 60000);
-  const seconds = Math.floor((updatedTime % 60000) / 1000);
-  const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  display.textContent = formattedTime;
-}
-
-startButton.addEventListener('click', startTimer);
-pauseButton.addEventListener('click', pauseTimer);
-resetButton.addEventListener('click', resetTimer);
+// ここに他の機能（計算機、色見本帳など）の表示・非表示ロジックを追加していきます
