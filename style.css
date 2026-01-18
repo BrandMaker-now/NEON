@@ -34,7 +34,7 @@ header {
     text-align: center;
     cursor: pointer;
     transition: background 0.3s, color 0.3s;
-    width: 100%;
+    flex: 1; /* ボタンの幅を均等に */
     box-sizing: border-box;
 }
 
@@ -64,7 +64,7 @@ header {
 
 .timer-container {
     flex: 1;
-    min-width: 250px;
+    min-width: 280px; /* 少し幅を広く */
     text-align: center;
 }
 
@@ -86,7 +86,7 @@ header {
     justify-content: center;
     align-items: center;
     gap: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* メッセージとの隙間 */
 }
 
 .countdown-inputs input[type="number"] {
@@ -100,6 +100,7 @@ header {
     /* Firefoxで出る数値調整ボタンを隠す */
     -moz-appearance: textfield; 
 }
+
 /* Chrome, Safari, Edgeで出る数値調整ボタンを隠す */
 .countdown-inputs input[type="number"]::-webkit-outer-spin-button,
 .countdown-inputs input[type="number"]::-webkit-inner-spin-button {
@@ -110,4 +111,11 @@ header {
 .countdown-inputs input[type="number"]:focus {
     outline: none;
     border-color: #fff;
+}
+
+/* 半角入力メッセージ */
+.input-message {
+    font-size: 0.8rem;
+    color: #0f0;
+    margin-bottom: 5px;
 }
