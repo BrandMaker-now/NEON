@@ -1,210 +1,352 @@
-/* --- 全体共通のリセットと基本スタイル --- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON PORTAL</title>
+    <link rel="icon" href="mashiopi_favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-body {
-    background: #222;      /* 黒に近い背景 */
-    color: #0f0;           /* ネオングリーンを基本色に */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px;
-}
+<header>
+    <h1 class="logo">NEON PORTAL</h1>
+</header>
 
-header {
-    border-bottom: 1px solid #0f0;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
+<nav id="feature-menu">
+    <div class="feature-grid">
+        <button class="feature-btn" onclick="showFeature('timer-section')">タイマー</button>
+        <button class="feature-btn" onclick="showFeature('unit-converter')">単位変換</button>
+        <button class="feature-btn" onclick="showFeature('color-palette')">色見本帳</button>
+        <button class="feature-btn" onclick="showFeature('calculator')">計算機</button>
+        <button class="feature-btn" onclick="showFeature('study-counter')">学習記録</button>
+        <button class="feature-btn" onclick="showFeature('flashcards')">フラッシュカード</button>
+        <button class="feature-btn" onclick="showFeature('random-picker')">ランダム出題</button>
+        <button class="feature-btn" onclick="showFeature('bookmarks')">お気に入り</button>
+        <button class="feature-btn" onclick="flickerFeature('rss-reader')">RSSリーダー</button>
+        <button class="feature-btn" onclick="flickerFeature('weather-api')">お天気</button>
+        <button class="feature-btn" onclick="flickerFeature('voting-system')">投票システム</button>
+    </div>
+</nav>
 
-.logo {
-    text-align: center;
-    font-size: 2.5rem;
-    text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* ロゴにネオンの光彩 */
-}
+<main>
+    <!-- タイマー機能セクション -->
+    <section id="timer-section" class="feature-content active">
+        <div class="timer-wrapper">
+            <!-- ストップウォッチエリア -->
+            <div class="timer-container stopwatch">
+                <h3>STOPWATCH</h3>
+                 <p class="timer-message">
+                    スタートで計測開始、一時停止で停止します。リセットで00:00に戻ります。
+                </p>
+                <div id="stopwatch-display" class="display">00:00:00</div>
+                <div class="timer-controls">
+                    <button id="sw-start-btn" class="feature-btn">スタート</button>
+                    <button id="sw-pause-btn" class="feature-btn" disabled>一時停止</button>
+                    <button id="sw-reset-btn" class="feature-btn">リセット</button>
+                </div>
+            </div>
 
-a {
-    color: #0ff; /* リンクはネオンシアンなど別色にしても良い */
-    text-decoration: none;
-}
+            <!-- カウントダウンエリア -->
+            <div class="timer-container countdown">
+                <h3>COUNTDOWN</h3>
+                <p class="timer-message">
+                    時間を設定し、スタートでカウントダウンを開始します。
+                </p>
+                <div class="countdown-controls-top">
+                    <select id="countdown-hours-input" class="feature-input"></select>
+                    <span>時間</span>
+                    <select id="countdown-minutes-input" class="feature-input"></select>
+                    <span>分</span>
+                    <select id="countdown-seconds-input" class="feature-input"></select>
+                    <span>秒</span>
+                </div>
+                <div id="countdown-display" class="display">00:00:00</div>
+                <div class="timer-controls">
+                    <button id="cd-start-btn" class="feature-btn">スタート</button>
+                    <button id="cd-pause-btn" class="feature-btn" disabled>一時停止</button>
+                    <button id="cd-reset-btn" class="feature-btn">リセット</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 単位変換機能セクション -->
+    <section id="unit-converter" class="feature-content">
+        <h2>UNIT CONVERTER</h2>
+        <p class="converter-message">
+            使い方: 左側の入力欄に数値を入れて、単位をプルダウンで選択してください。<br>
+            結果は右側の入力欄に有効数字5桁で自動表示されます。（小数点以下の桁数は自動調整されます）
+        </p>
+        <div class="converter-wrapper">
+            <input type="number" id="input-value" class="feature-input" value="1" oninput="convertUnits()">
+            <select id="input-unit" class="feature-input" onchange="convertUnits()">
+                <option value="cm">センチメートル (cm)</option>
+                <option value="m">メートル (m)</option>
+                <option value="km">キロメートル (km)</option>
+                <option value="in">インチ (in)</option>
+            </select>
+            <span>=</span>
+            <input type="text" id="output-value" class="feature-input" readonly>
+            <select id="output-unit" class="feature-input" onchange="convertUnits()">
+                <option value="cm">センチメートル (cm)</option>
+                <option value="m">メートル (m)</option>
+                <option value="km">キロメートル (km)</option>
+                <option value="in">インチ (in)</option>
+            </select>
+        </div>
+    </section>
 
-main {
-    margin-top: 20px;
-}
+    <!-- 他の機能セクション (ダミーコンテンツを追加して位置を調整) -->
+    
+    <section id="color-palette" class="feature-content">
+        <h2>COLOR PALETTE</h2>
+        <p class="converter-message">クリックでカラーコードをコピーできます。（※機能は未実装）</p>
+    </section>
+    
+    <section id="calculator" class="feature-content">
+        <h2>CALCULATOR</h2>
+        <p class="converter-message">シンプルな計算機です。（※機能は未実装）</p>
+    </section>
+    
+    <section id="study-counter" class="feature-content">
+        <h2>STUDY COUNTER</h2>
+        <p class="converter-message">学習時間を記録します。（※機能は未実装）</p>
+    </section>
+    
+    <section id="flashcards" class="feature-content">
+        <h2>FLASHCARDS</h2>
+        <p class="converter-message">単語カード機能です。（※機能は未実装）</p>
+    </section>
+    
+    <section id="random-picker" class="feature-content">
+        <h2>RANDOM PICKER</h2>
+        <p class="converter-message">項目の中からランダムに一つ選びます。（※機能は未実装）</p>
+    </section>
+    
+    <section id="bookmarks" class="feature-content">
+        <h2>BOOKMARKS</h2>
+        <p class="converter-message">お気に入りのリンクを保存します。（※機能は未実装）</p>
+    </section>
+    
+    <section id="progress-bar" class="feature-content">
+        <h2>PROGRESS BAR</h2>
+        <p class="converter-message">進捗バーの表示エリアです。（※機能は未実装）</p>
+    </section>
 
-/* --- 機能メニュー (nav) --- */
-#feature-menu {
-    margin-bottom: 20px;
-}
+    <!-- ご指摘の3つのセクション -->
+    <section id="rss-reader" class="feature-content">
+        <h2>RSSリーダー</h2>
+        <p class="converter-message">RSSフィードを読み込みます。（※機能は未実装）</p>
+    </section>
 
-.feature-grid {
-    display: flex;
-    flex-wrap: wrap; /* 画面幅に合わせて折り返す */
-    gap: 10px;
-    justify-content: center;
-}
+    <section id="weather-api" class="feature-content">
+        <h2>お天気</h2>
+        <p class="converter-message">現在地のお天気を表示します。（※機能は未実装）</p>
+    </section>
 
-/* --- ボタンのスタイル (ネオンデザイン) --- */
-.feature-btn {
-    background: transparent; /* 背景は透明 */
-    border: 1px solid #0f0;  /* 枠線をネオングリーン */
-    color: #0f0;             /* 文字色もネオングリーン */
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: all 0.3s ease; /* ホバー時の変化をスムーズに */
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* 文字にネオンの影 */
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.4); /* 外側にネオンの光彩 */
-    font-size: 0.9rem;
-}
+    <section id="voting-system" class="feature-content">
+        <h2>VOTING SYSTEM</h2>
+        <p class="converter-message">投票システムを構築します。（※機能は未実装）</p>
+    </section>
 
-/* ボタンにマウスが乗った時（ホバー時） */
-.feature-btn:hover:not(:disabled) {
-    background: #0f0;       /* 背景をグリーンで埋める */
-    color: #000;            /* 文字色を黒にして目立たせる */
-    box-shadow: 0 0 20px #0f0; /* より強く光らせる */
-    text-shadow: none;      /* 文字の影は消す */
-}
+</main>
 
-/* ボタンが無効（disabled）な時 */
-.feature-btn:disabled {
-    border-color: #050;
-    color: #050;
-    box-shadow: none; /* 光彩を消す */
-    cursor: not-allowed;
-}
+<script>
+    // 機能がないセクションをクリックしたときに点滅させるダミー関数
+    function flickerFeature(featureId) {
+        showFeature(featureId);
+        const target = document.getElementById(featureId);
+        
+        const neonColor = '#0f0';
+        const neonBg = 'rgba(0, 255, 0, 0.05)';
 
-/* --- 入力フィールド (Input/Select/Textarea) のスタイル --- */
-.feature-input {
-    background: #333;
-    border: 1px solid #0f0;
-    color: #0f0;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 1rem;
-    /* ネオンの光彩を追加 */
-    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
-}
+        target.style.transition = 'background 0.1s, box-shadow 0.1s';
+        target.style.background = '#fff';
+        target.style.color = '#222';
+        target.style.boxShadow = '0 0 20px #fff';
+        
+        setTimeout(() => {
+             target.style.background = neonBg;
+             target.style.color = neonColor;
+             target.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.2)';
+        }, 100);
+    }
+    
+    // --- 機能切り替えロジック ---
+    function showFeature(featureId) {
+        const contents = document.querySelectorAll('.feature-content');
+        contents.forEach(content => {
+            content.classList.remove('active');
+        });
+        const target = document.getElementById(featureId);
+        if (target) {
+            target.classList.add('active');
+        }
+    }
 
-/* --- 各機能セクションのスタイル --- */
-.feature-content {
-    display: none; /* 初期状態は非表示 */
-    padding: 20px 0;
-}
+    // --- ストップウォッチ ロジック ---
+    let swInterval = null;
+    let swSeconds = 0;
+    const swDisplay = document.getElementById('stopwatch-display');
+    const swStartBtn = document.getElementById('sw-start-btn');
+    const swPauseBtn = document.getElementById('sw-pause-btn');
+    const swResetBtn = document.getElementById('sw-reset-btn');
 
-.feature-content.active {
-    display: block; /* activeクラスがついたものだけ表示 */
-}
+    swStartBtn.addEventListener('click', () => {
+        if (!swInterval) {
+            swInterval = setInterval(updateStopwatch, 1000);
+            swStartBtn.disabled = true; 
+            swPauseBtn.disabled = false; 
+        }
+    });
 
-h2, h3 {
-    color: #0ff; /* セクション見出しはシアン系のネオンカラー */
-    margin-bottom: 15px;
-    border-bottom: 1px dashed #0ff;
-    padding-bottom: 5px;
-}
+    swPauseBtn.addEventListener('click', () => {
+        if (swInterval) {
+            clearInterval(swInterval);
+            swInterval = null;
+            swStartBtn.disabled = false; 
+            swPauseBtn.disabled = true; 
+        }
+    });
 
-.timer-message, .converter-message {
-    font-size: 0.9rem;
-    color: #aaa;
-    margin-bottom: 15px;
-}
+    swResetBtn.addEventListener('click', () => {
+        clearInterval(swInterval);
+        swInterval = null;
+        swSeconds = 0;
+        swDisplay.textContent = '00:00:00';
+        swStartBtn.disabled = false; 
+        swPauseBtn.disabled = true; 
+    });
+    
+    function updateStopwatch() {
+        swSeconds++;
+        const hours = Math.floor(swSeconds / 3600);
+        const mins = Math.floor((swSeconds % 3600) / 60);
+        const secs = swSeconds % 60;
+        swDisplay.textContent = 
+            `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
 
-/* --- タイマーセクション固有のスタイル --- */
-.timer-wrapper {
-    display: flex;
-    gap: 20px; /* タイマー間の隙間 */
-    flex-wrap: nowrap; /* ★ここをnowrapにすることで縦並びを防ぐ */
-    justify-content: center;
-}
 
-.timer-container {
-    flex: 1;
-    min-width: 350px; /* H:M:S が確実に入る幅を確保 */
-    text-align: center;
-    min-height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid #0f0;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
-}
+    // --- カウントダウンタイマー ロジック ---
+    let cdInterval = null;
+    let cdSecondsRemaining = 0;
+    const cdHoursInput = document.getElementById('countdown-hours-input');
+    const cdMinutesInput = document.getElementById('countdown-minutes-input');
+    const cdSecondsInput = document.getElementById('countdown-seconds-input');
+    const cdDisplay = document.getElementById('countdown-display');
+    const cdStartBtn = document.getElementById('cd-start-btn');
+    const cdPauseBtn = document.getElementById('cd-pause-btn');
+    const cdResetBtn = document.getElementById('cd-reset-btn');
 
-/* ディスプレイ表示部分 (00:00:00など) */
-.display {
-    font-size: 3rem; /* フォントサイズを調整 */
-    color: #0f0;
-    min-height: 1.2em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 15px 0;
-    text-shadow: 0 0 10px #0f0; /* ディスプレイも光らせる */
-}
+    // プルダウンメニューのオプションを生成する関数
+    function populateSelect(selectEl, max) {
+        for (let i = 0; i <= max; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i.toString().padStart(2, '0');
+            selectEl.appendChild(option);
+        }
+    }
+    // プルダウンを生成 (時間は99時間まで設定可能に)
+    populateSelect(cdHoursInput, 99); 
+    populateSelect(cdMinutesInput, 59);
+    populateSelect(cdSecondsInput, 59);
 
-.timer-controls {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: auto;
-}
 
-/* カウントダウン入力欄のスタイル */
-.countdown-controls-top {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 10px;
-}
+    cdStartBtn.addEventListener('click', () => {
+        if (!cdInterval) {
+            if (cdSecondsRemaining <= 0) {
+                const hours = parseInt(cdHoursInput.value) || 0;
+                const minutes = parseInt(cdMinutesInput.value) || 0;
+                const seconds = parseInt(cdSecondsInput.value) || 0;
+                cdSecondsRemaining = hours * 3600 + minutes * 60 + seconds; // 時間の計算
+                if (cdSecondsRemaining <= 0) return;
+            }
 
-/* select要素（プルダウン）のスタイル */
-.countdown-controls-top select {
-    background: #333;
-    border: 1px solid #0f0;
-    color: #0f0;
-    padding: 10px 5px;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    text-align: right;
-}
+            cdInterval = setInterval(tick, 1000);
+            cdStartBtn.disabled = true;
+            cdPauseBtn.disabled = false;
+            cdHoursInput.disabled = true; 
+            cdMinutesInput.disabled = true; 
+            cdSecondsInput.disabled = true;
+        }
+    });
 
-/* ラベル (時間, 分, 秒) のスタイル */
-.countdown-controls-top span {
-    font-size: 0.9rem;
-    margin-right: 5px;
-}
+    cdPauseBtn.addEventListener('click', () => {
+        if (cdInterval) {
+            clearInterval(cdInterval);
+            cdInterval = null;
+            cdStartBtn.disabled = false;
+            cdPauseBtn.disabled = true;
+        }
+    });
 
-/* --- 単位変換セクション固有のスタイル --- */
-.converter-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+    cdResetBtn.addEventListener('click', () => {
+        clearInterval(cdInterval);
+        cdInterval = null;
+        cdSecondsRemaining = 0;
+        updateCountdownDisplay(0); 
+        cdStartBtn.disabled = false;
+        cdPauseBtn.disabled = true;
+        cdHoursInput.disabled = false; 
+        cdMinutesInput.disabled = false; 
+        cdSecondsInput.disabled = false;
+        cdHoursInput.value = 0; 
+        cdMinutesInput.value = 0; 
+        cdSecondsInput.value = 0;
+    });
+    
+    function tick() {
+        cdSecondsRemaining--;
+        if (cdSecondsRemaining < 0) {
+            clearInterval(cdInterval);
+            cdInterval = null;
+            cdDisplay.textContent = "DONE!";
+            cdStartBtn.disabled = false;
+            cdPauseBtn.disabled = true;
+            cdHoursInput.disabled = false; 
+            cdMinutesInput.disabled = false; 
+            cdSecondsInput.disabled = false;
+        } else {
+            updateCountdownDisplay(cdSecondsRemaining);
+        }
+    }
+    
+    function updateCountdownDisplay(secondsTotal) {
+        const hours = Math.floor(secondsTotal / 3600);
+        const mins = Math.floor((secondsTotal % 3600) / 60);
+        const secs = secondsTotal % 60;
+        cdDisplay.textContent = 
+            `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
 
-#output-value {
-    background: #444; /* 結果表示欄は少し暗く */
-    cursor: default;
-}
 
-/* --- ここから先は将来の機能のためのスタイル（HTML後半部分に対応） --- */
+    // --- 単位変換ロジック (有効数字5桁) ---
+    const inputValueEl = document.getElementById('input-value');
+    const inputUnitEl = document.getElementById('input-unit');
+    const outputValueEl = document.getElementById('output-value');
+    const outputUnitEl = document.getElementById('output-unit');
+    const conversionRates = { 'cm': 0.01, 'm': 1, 'km': 1000, 'in': 0.0254 };
 
-/* カラーパレット */
-.color-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 10px;
-}
+    function convertUnits() {
+        const inputValue = parseFloat(inputValueEl.value) || 0;
+        const inputUnit = inputUnitEl.value;
+        const outputUnit = outputUnitEl.value;
+        const valueInMeters = inputValue * conversionRates[inputUnit];
+        const outputValue = valueInMeters / conversionRates[outputUnit];
+        outputValueEl.value = parseFloat(outputValue.toPrecision(5)).toString(); 
+    }
+    // イベントリスナーはHTMLタグの属性 (oninput, onchange) で設定済みです
 
-.color-card {
-    padding: 20px;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3) inset;
-}
 
-/* 他のセクションのスタイルも必要に応じてここに追加できます */
+    // ページ読み込み時の初期設定
+    window.onload = () => {
+        showFeature('timer-section'); // タイマーを初期表示
+        convertUnits(); // 単位変換の初期計算を実行
+    };
+</script>
+
+</body>
+</html>
