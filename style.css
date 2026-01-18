@@ -7,7 +7,7 @@ body {
     margin: 0;
     padding: 20px;
 }
-
+/* ... (header, logo, feature-grid, feature-btn スタイルは省略、変更なし) ... */
 header {
     border-bottom: 1px solid #0f0;
     padding-bottom: 10px;
@@ -43,7 +43,7 @@ header {
     color: #222;
 }
 
-/* 非表示・表示の制御 */
+
 .feature-content {
     display: none;
     margin-top: 20px;
@@ -68,42 +68,49 @@ header {
     flex: 1;
     min-width: 280px; 
     text-align: center;
-    /* 各コンテナの高さを揃えるために最小高さを設定 */
     min-height: 250px; 
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* コンテンツを上下に揃える */
+    justify-content: space-between;
+    /* セクションごとの区切り線 */
+    border: 1px solid #0f0; 
+    padding: 15px;
 }
 
 /* ディスプレイ表示部分の高さとマージンを揃える */
 .display {
     font-size: 3rem;
     color: #0f0;
-    margin: 15px 0; 
-    /* 高さを固定して揃える */
+    /* 高さ固定で揃える */
     min-height: 1.2em; 
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 15px 0;
 }
 
-/* ボタンを並べるエリア */
 .timer-controls {
     display: flex;
     justify-content: space-between; 
     gap: 10px;
-    /* ボタンエリアの高さも揃えるためにマージンを調整 */
     margin-top: auto; 
 }
 
-
 /* カウントダウン入力欄のスタイル */
+.countdown-controls-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
 .countdown-inputs {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
-    margin-bottom: 10px; 
+    /* flex: 1; を追加して幅を調整 */
+    flex: 1;
 }
 
 .countdown-inputs input[type="number"] {
@@ -133,4 +140,18 @@ header {
     font-size: 0.8rem;
     color: #0f0;
     margin-bottom: 5px;
+    text-align: left;
+}
+
+/* プルダウンメニューのスタイル */
+#countdown-preset {
+    /* feature-btn のスタイルを一部流用 */
+    background: #333;
+    border: 1px solid #0f0;
+    color: #0f0;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    flex: 1;
 }
