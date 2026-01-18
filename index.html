@@ -23,6 +23,7 @@
         <button class="feature-btn" onclick="showFeature('flashcards')">フラッシュカード</button>
         <button class="feature-btn" onclick="showFeature('random-picker')">ランダム出題</button>
         <button class="feature-btn" onclick="showFeature('bookmarks')">お気に入り</button>
+        <!-- ★ここから下の3つのボタンのonclickをflickerFeatureからshowFeatureに変更しました★ -->
         <button class="feature-btn" onclick="showFeature('rss-reader')">RSSリーダー</button>
         <button class="feature-btn" onclick="showFeature('weather-api')">お天気</button>
         <button class="feature-btn" onclick="showFeature('voting-system')">投票システム</button>
@@ -33,6 +34,7 @@
     <!-- タイマー機能セクション -->
     <section id="timer-section" class="feature-content active">
         <div class="timer-wrapper">
+            <!-- ストップウォッチエリア -->
             <div class="timer-container stopwatch">
                 <h3>STOPWATCH</h3>
                  <p class="timer-message">
@@ -46,6 +48,7 @@
                 </div>
             </div>
 
+            <!-- カウントダウンエリア -->
             <div class="timer-container countdown">
                 <h3>COUNTDOWN</h3>
                 <p class="timer-message">
@@ -69,11 +72,12 @@
         </div>
     </section>
     
+    <!-- 単位変換機能セクション -->
     <section id="unit-converter" class="feature-content">
         <h2>UNIT CONVERTER</h2>
         <p class="converter-message">
             使い方: 左側の入力欄に数値を入れて、単位をプルダウンで選択してください。<br>
-            結果は右側の入力欄に有効数字5桁で自動表示されます。
+            結果は右側の入力欄に有効数字5桁で自動表示されます。（小数点以下の桁数は自動調整されます）
         </p>
         <div class="converter-wrapper">
             <input type="number" id="input-value" class="feature-input" value="1" oninput="convertUnits()">
@@ -94,19 +98,256 @@
         </div>
     </section>
 
-    <!-- ダミーセクション -->
-    <section id="color-palette" class="feature-content"><h2>COLOR PALETTE</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="calculator" class="feature-content"><h2>CALCULATOR</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="study-counter" class="feature-content"><h2>STUDY COUNTER</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="flashcards" class="feature-content"><h2>FLASHCARDS</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="random-picker" class="feature-content"><h2>RANDOM PICKER</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="bookmarks" class="feature-content"><h2>BOOKMARKS</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="rss-reader" class="feature-content"><h2>RSSリーダー</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="weather-api" class="feature-content"><h2>お天気</h2><p class="converter-message">機能は未実装</p></section>
-    <section id="voting-system" class="feature-content"><h2>VOTING SYSTEM</h2><p class="converter-message">機能は未実装</p></section>
+    <!-- 他の機能セクション (ダミーコンテンツを追加して位置を調整) -->
+    
+    <section id="color-palette" class="feature-content">
+        <h2>COLOR PALETTE</h2>
+        <p class="converter-message">クリックでカラーコードをコピーできます。（※機能は未実装）</p>
+    </section>
+    
+    <section id="calculator" class="feature-content">
+        <h2>CALCULATOR</h2>
+        <p class="converter-message">シンプルな計算機です。（※機能は未実装）</p>
+    </section>
+    
+    <section id="study-counter" class="feature-content">
+        <h2>STUDY COUNTER</h2>
+        <p class="converter-message">学習時間を記録します。（※機能は未実装）</p>
+    </section>
+    
+    <section id="flashcards" class="feature-content">
+        <h2>FLASHCARDS</h2>
+        <p class="converter-message">単語カード機能です。（※機能は未実装）</p>
+    </section>
+    
+    <section id="random-picker" class="feature-content">
+        <h2>RANDOM PICKER</h2>
+        <p class="converter-message">項目の中からランダムに一つ選びます。（※機能は未実装）</p>
+    </section>
+    
+    <section id="bookmarks" class="feature-content">
+        <h2>BOOKMARKS</h2>
+        <p class="converter-message">お気に入りのリンクを保存します。（※機能は未実装）</p>
+    </section>
+    
+    <section id="progress-bar" class="feature-content">
+        <h2>PROGRESS BAR</h2>
+        <p class="converter-message">進捗バーの表示エリアです。（※機能は未実装）</p>
+    </section>
+
+    <!-- ご指摘の3つのセクション -->
+    <section id="rss-reader" class="feature-content">
+        <h2>RSSリーダー</h2>
+        <p class="converter-message">RSSフィードを読み込みます。（※機能は未実装）</p>
+    </section>
+
+    <section id="weather-api" class="feature-content">
+        <h2>お天気</h2>
+        <p class="converter-message">現在地のお天気を表示します。（※機能は未実装）</p>
+    </section>
+
+    <section id="voting-system" class="feature-content">
+        <h2>VOTING SYSTEM</h2>
+        <p class="converter-message">投票システムを構築します。（※機能は未実装）</p>
+    </section>
 
 </main>
 
-<script src="script.js"></script>
+<script>
+    // 機能がないセクションをクリックしたときに点滅させるダミー関数 (これはもう使われませんが残しておきます)
+    function flickerFeature(featureId) {
+        showFeature(featureId);
+        const target = document.getElementById(featureId);
+        
+        const neonColor = '#0f0';
+        const neonBg = 'rgba(0, 255, 0, 0.05)';
+
+        target.style.transition = 'background 0.1s, box-shadow 0.1s';
+        target.style.background = '#fff';
+        target.style.color = '#222';
+        target.style.boxShadow = '0 0 20px #fff';
+        
+        setTimeout(() => {
+             target.style.background = neonBg;
+             target.style.color = neonColor;
+             target.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.2)';
+        }, 100);
+    }
+    
+    // --- 機能切り替えロジック ---
+    function showFeature(featureId) {
+        const contents = document.querySelectorAll('.feature-content');
+        contents.forEach(content => {
+            content.classList.remove('active');
+        });
+        const target = document.getElementById(featureId);
+        if (target) {
+            target.classList.add('active');
+        }
+    }
+
+    // --- ストップウォッチ ロジック ---
+    let swInterval = null;
+    let swSeconds = 0;
+    const swDisplay = document.getElementById('stopwatch-display');
+    const swStartBtn = document.getElementById('sw-start-btn');
+    const swPauseBtn = document.getElementById('sw-pause-btn');
+    const swResetBtn = document.getElementById('sw-reset-btn');
+
+    swStartBtn.addEventListener('click', () => {
+        if (!swInterval) {
+            swInterval = setInterval(updateStopwatch, 1000);
+            swStartBtn.disabled = true;
+            swPauseBtn.disabled = false; 
+        }
+    });
+
+    swPauseBtn.addEventListener('click', () => {
+        if (swInterval) {
+            clearInterval(swInterval);
+            swInterval = null;
+            swStartBtn.disabled = false; 
+            swPauseBtn.disabled = true; 
+        }
+    });
+
+    swResetBtn.addEventListener('click', () => {
+        clearInterval(swInterval);
+        swInterval = null;
+        swSeconds = 0;
+        swDisplay.textContent = '00:00:00';
+        swStartBtn.disabled = false; 
+        swPauseBtn.disabled = true; 
+    });
+    
+    function updateStopwatch() {
+        swSeconds++;
+        const hours = Math.floor(swSeconds / 3600);
+        const mins = Math.floor((swSeconds % 3600) / 60);
+        const secs = swSeconds % 60;
+        swDisplay.textContent = 
+            `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+
+    // --- カウントダウンタイマー ロジック ---
+    let cdInterval = null;
+    let cdSecondsRemaining = 0;
+    const cdHoursInput = document.getElementById('countdown-hours-input');
+    const cdMinutesInput = document.getElementById('countdown-minutes-input');
+    const cdSecondsInput = document.getElementById('countdown-seconds-input');
+    const cdDisplay = document.getElementById('countdown-display');
+    const cdStartBtn = document.getElementById('cd-start-btn');
+    const cdPauseBtn = document.getElementById('cd-pause-btn');
+    const cdResetBtn = document.getElementById('cd-reset-btn');
+
+    // プルダウンメニューのオプションを生成する関数
+    function populateSelect(selectEl, max) {
+        for (let i = 0; i <= max; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i.toString().padStart(2, '0');
+            selectEl.appendChild(option);
+        }
+    }
+    // プルダウンを生成 (時間は99時間まで設定可能に)
+    populateSelect(cdHoursInput, 99); 
+    populateSelect(cdMinutesInput, 59);
+    populateSelect(cdSecondsInput, 59);
+
+
+    cdStartBtn.addEventListener('click', () => {
+        if (!cdInterval) {
+            if (cdSecondsRemaining <= 0) {
+                const hours = parseInt(cdHoursInput.value) || 0;
+                const minutes = parseInt(cdMinutesInput.value) || 0;
+                const seconds = parseInt(cdSecondsInput.value) || 0;
+                cdSecondsRemaining = hours * 3600 + minutes * 60 + seconds; // 時間の計算
+                if (cdSecondsRemaining <= 0) return;
+            }
+
+            cdInterval = setInterval(tick, 1000);
+            cdStartBtn.disabled = true;
+            cdPauseBtn.disabled = false;
+            cdHoursInput.disabled = true; 
+            cdMinutesInput.disabled = true; 
+            cdSecondsInput.disabled = true;
+        }
+    });
+
+    cdPauseBtn.addEventListener('click', () => {
+        if (cdInterval) {
+            clearInterval(cdInterval);
+            cdInterval = null;
+            cdStartBtn.disabled = false;
+            cdPauseBtn.disabled = true;
+        }
+    });
+
+    cdResetBtn.addEventListener('click', () => {
+        clearInterval(cdInterval);
+        cdInterval = null;
+        cdSecondsRemaining = 0;
+        updateCountdownDisplay(0); 
+        cdStartBtn.disabled = false;
+        cdPauseBtn.disabled = true;
+        cdHoursInput.disabled = false; 
+        cdMinutesInput.disabled = false; 
+        cdSecondsInput.disabled = false;
+        cdHoursInput.value = 0; 
+        cdMinutesInput.value = 0; 
+        cdSecondsInput.value = 0;
+    });
+    
+    function tick() {
+        cdSecondsRemaining--;
+        if (cdSecondsRemaining < 0) {
+            clearInterval(cdInterval);
+            cdInterval = null;
+            cdDisplay.textContent = "DONE!";
+            cdStartBtn.disabled = false;
+            cdPauseBtn.disabled = true;
+            cdHoursInput.disabled = false; 
+            cdMinutesInput.disabled = false; 
+            cdSecondsInput.disabled = false;
+        } else {
+            updateCountdownDisplay(cdSecondsRemaining);
+        }
+    }
+    
+    function updateCountdownDisplay(secondsTotal) {
+        const hours = Math.floor(secondsTotal / 3600);
+        const mins = Math.floor((secondsTotal % 3600) / 60);
+        const secs = secondsTotal % 60;
+        cdDisplay.textContent = 
+            `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+
+    // --- 単位変換ロジック (有効数字5桁) ---
+    const inputValueEl = document.getElementById('input-value');
+    const inputUnitEl = document.getElementById('input-unit');
+    const outputValueEl = document.getElementById('output-value');
+    const outputUnitEl = document.getElementById('output-unit');
+    const conversionRates = { 'cm': 0.01, 'm': 1, 'km': 1000, 'in': 0.0254 };
+
+    function convertUnits() {
+        const inputValue = parseFloat(inputValueEl.value) || 0;
+        const inputUnit = inputUnitEl.value;
+        const outputUnit = outputUnitEl.value;
+        const valueInMeters = inputValue * conversionRates[inputUnit];
+        const outputValue = valueInMeters / conversionRates[outputUnit];
+        outputValueEl.value = parseFloat(outputValue.toPrecision(5)).toString(); 
+    }
+    // イベントリスナーはHTMLタグの属性 (oninput, onchange) で設定済みです
+
+
+    // ページ読み込み時の初期設定
+    window.onload = () => {
+        showFeature('timer-section'); // タイマーを初期表示
+        convertUnits(); // 単位変換の初期計算を実行
+    };
+</script>
+
 </body>
 </html>
