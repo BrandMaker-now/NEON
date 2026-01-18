@@ -1,29 +1,53 @@
-header {
-  background: #333;      /* ヘッダーの背景（濃いグレー） */
-  display: flex;         /* 横並びにする設定 */
-  justify-content: space-between; /* ロゴとメニューを左右に離す */
-  align-items: center;   /* 上下中央に揃える */
-  padding: 10px 20px;
-  border-bottom: 2px solid #0f0; /* 下側にだけ緑の線を引く */
+/* サイト全体の基本設定 */
+body {
+  background: #222;
+  color: #0f0;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }
 
+/* ヘッダー全体の設定 */
+header {
+  background: #333;      /* ヘッダーだけ少し明るいグレー */
+  display: flex;         /* 横に並べる */
+  justify-content: space-between; /* ロゴとメニューを離す */
+  align-items: center;   /* 上下中央に揃える */
+  padding: 15px 30px;
+  border-bottom: 2px solid #0f0; /* 下に緑の線 */
+}
+
+/* ロゴの設定 */
 .logo {
   font-weight: bold;
   font-size: 20px;
+  color: #0f0;
 }
 
+/* メニューの設定 */
 nav ul {
-  list-style: none;      /* メニューの「・」を消す */
+  list-style: none;      /* 点を消す */
   display: flex;         /* メニューを横に並べる */
   margin: 0;
   padding: 0;
 }
 
 nav li {
-  margin-left: 20px;     /* メニュー同士の間隔 */
+  margin-left: 20px;     /* メニュー同士の隙間 */
 }
 
 nav a {
-  color: #0f0;           /* リンクの色を緑に */
+  color: #0f0;           /* リンクを緑に */
   text-decoration: none; /* 下線を消す */
+  font-weight: bold;
+}
+
+/* メインの見出し（成功！のところ） */
+h1 {
+  border: 5px solid #0f0;
+  padding: 20px;
+  display: inline-block;
+  border-radius: 10px;
+  margin-top: 50px;      /* ヘッダーから少し離す */
 }
