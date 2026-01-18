@@ -1,59 +1,29 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css">
-  <title>My Original site</title>
-  <script src="Javascript"></script>
-</head>
-<body>
+<!-- ダークモード切り替えボタン（右上に固定） -->
+<button id="dark-mode-toggle" title="ダークモード切り替え">🌓</button>
 
-  <header>
-    <div class="logo">My Original Site</div>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <!-- 機能選択メニューへのリンク -->
-        <li><a href="#feature-menu">機能</a></li>
-      </ul>
-    </nav>
-    <!-- ダークモード切り替えボタン -->
-    <button id="dark-mode-toggle">🌓</button>
-  </header>
-
-  <main>
-    <h1>成功！</h1>
-    <p>Chromebookで作成中</p>
-
-    <!-- 機能選択メニューのセクション -->
-    <section id="feature-menu">
-        <h2>機能一覧</h2>
-        <div class="feature-grid">
-            <a href="#" id="calc-link" class="feature-btn">計算機</a>
-            <a href="#" id="timer-link" class="feature-btn">タイマー</a>
-            <a href="#" id="colors-link" class="feature-btn">色見本帳</a>
-            <a href="#" id="convert-link" class="feature-btn">単位変換</a>
-            <!-- 他の機能のボタンもここに追加していきます -->
-        </div>
-    </section>
-
-    <!-- タイマー機能の場所（既存） -->
-    <div id="timer-section" class="feature-content">
-        <div class="timer-container">
-          <div id="timer-display">00:00</div>
-          <button id="start-button">開始</button>
-          <button id="pause-button">一時停止</button>
-          <button id="reset-button">リセット</button>
-        </div>
+<!-- 機能選択メニュー -->
+<nav id="feature-menu">
+    <div class="feature-grid">
+        <a href="#" class="feature-btn" onclick="showFeature('timer-section')">タイマー</a>
+        <a href="#" class="feature-btn" onclick="showFeature('unit-converter')">単位変換</a>
+        <a href="#" class="feature-btn" onclick="showFeature('color-palette')">色見本帳</a>
+        <a href="#" class="feature-btn" onclick="showFeature('calculator')">計算機</a>
+        <a href="#" class="feature-btn" onclick="showFeature('study-counter')">学習記録</a>
+        <a href="#" class="feature-btn" onclick="showFeature('flashcards')">フラッシュカード</a>
+        <a href="#" class="feature-btn" onclick="showFeature('random-picker')">ランダム出題</a>
+        <a href="#" class="feature-btn" onclick="showFeature('bookmarks')">お気に入り</a>
+        <a href="#" class="feature-btn" onclick="showFeature('progress-bar')">学習進捗</a>
+        <a href="#" class="feature-btn" onclick="showFeature('rss-reader')">RSSリーダー</a>
+        <a href="#" class="feature-btn" onclick="showFeature('weather-api')">お天気</a>
+        <a href="#" class="feature-btn" onclick="showFeature('voting-system')">投票システム</a>
     </div>
-    
-    <!-- 他の機能セクションはここに隠して追加 -->
+</nav>
 
-  </main>
-
-  <footer>
-    <p>&copy; 2026 My Original Site</p>
-  </footer>
-
-</body>
-</html>
+<!-- 各機能のコンテンツエリア -->
+<main id="main-content">
+    <section id="timer-section" class="feature-content"> <!-- 既存のタイマー --> </section>
+    <section id="unit-converter" class="feature-content"> <h2>単位変換</h2> <!-- コンテンツ --> </section>
+    <section id="color-palette" class="feature-content"> <h2>色見本帳</h2> <!-- コンテンツ --> </section>
+    <!-- ... 他のセクションも同様に id を振って作成 ... -->
+    <section id="voting-system" class="feature-content"> <h2>投票システム</h2> <!-- コンテンツ --> </section>
+</main>
