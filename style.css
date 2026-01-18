@@ -1,62 +1,161 @@
-/* --- ネオンデザイン固定（style.cssの内容） --- */
+/* --- 全体共通のリセットと基本スタイル --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
-    background: #222; /* 黒に近い背景 */
-    color: #0f0;      /* ネオングリーン */
-    font-family: sans-serif;
-    margin: 0;
+    background: #222;      /* 黒に近い背景 */
+    color: #0f0;           /* ネオングリーンを基本色に */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 20px;
 }
 
 header {
     border-bottom: 1px solid #0f0;
     padding-bottom: 10px;
+    margin-bottom: 20px;
 }
-/* ... (他の基本的なスタイルは省略、変更なし) ... */
-.logo { text-align: center; }
-.feature-grid { /* ... */ }
-.feature-btn { /* ... */ }
-.feature-content { /* ... */ }
-.feature-content.active { display: block; }
-.timer-wrapper { /* ... */ }
+
+.logo {
+    text-align: center;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.7); /* ロゴにネオンの光彩 */
+}
+
+a {
+    color: #0ff; /* リンクはネオンシアンなど別色にしても良い */
+    text-decoration: none;
+}
+
+main {
+    margin-top: 20px;
+}
+
+/* --- 機能メニュー (nav) --- */
+#feature-menu {
+    margin-bottom: 20px;
+}
+
+.feature-grid {
+    display: flex;
+    flex-wrap: wrap; /* 画面幅に合わせて折り返す */
+    gap: 10px;
+    justify-content: center;
+}
+
+/* --- ボタンのスタイル (ネオンデザイン) --- */
+.feature-btn {
+    background: transparent; /* 背景は透明 */
+    border: 1px solid #0f0;  /* 枠線をネオングリーン */
+    color: #0f0;             /* 文字色もネオングリーン */
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* ホバー時の変化をスムーズに */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* 文字にネオンの影 */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.4); /* 外側にネオンの光彩 */
+    font-size: 0.9rem;
+}
+
+/* ボタンにマウスが乗った時（ホバー時） */
+.feature-btn:hover:not(:disabled) {
+    background: #0f0;       /* 背景をグリーンで埋める */
+    color: #000;            /* 文字色を黒にして目立たせる */
+    box-shadow: 0 0 20px #0f0; /* より強く光らせる */
+    text-shadow: none;      /* 文字の影は消す */
+}
+
+/* ボタンが無効（disabled）な時 */
+.feature-btn:disabled {
+    border-color: #050;
+    color: #050;
+    box-shadow: none; /* 光彩を消す */
+    cursor: not-allowed;
+}
+
+/* --- 入力フィールド (Input/Select/Textarea) のスタイル --- */
+.feature-input {
+    background: #333;
+    border: 1px solid #0f0;
+    color: #0f0;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1rem;
+    /* ネオンの光彩を追加 */
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+/* --- 各機能セクションのスタイル --- */
+.feature-content {
+    display: none; /* 初期状態は非表示 */
+    padding: 20px 0;
+}
+
+.feature-content.active {
+    display: block; /* activeクラスがついたものだけ表示 */
+}
+
+h2, h3 {
+    color: #0ff; /* セクション見出しはシアン系のネオンカラー */
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #0ff;
+    padding-bottom: 5px;
+}
+
+.timer-message, .converter-message {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+/* --- タイマーセクション固有のスタイル --- */
+.timer-wrapper {
+    display: flex;
+    gap: 20px; /* タイマー間の隙間 */
+    flex-wrap: nowrap; /* ★ここをnowrapにすることで縦並びを防ぐ */
+    justify-content: center;
+}
 
 .timer-container {
     flex: 1;
-    min-width: 320px; /* 少し幅を広くして H:M:S が収まるように */
+    min-width: 350px; /* H:M:S が確実に入る幅を確保 */
     text-align: center;
-    min-height: 250px; 
+    min-height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid #0f0; 
+    border: 1px solid #0f0;
     padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
 }
 
-/* ディスプレイ表示部分の高さとマージンを揃える */
+/* ディスプレイ表示部分 (00:00:00など) */
 .display {
-    font-size: 2.5rem; /* フォントサイズを少し小さくして3桁収める */
+    font-size: 3rem; /* フォントサイズを調整 */
     color: #0f0;
-    min-height: 1.2em; 
+    min-height: 1.2em;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 15px 0;
+    text-shadow: 0 0 10px #0f0; /* ディスプレイも光らせる */
 }
 
 .timer-controls {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     gap: 10px;
-    margin-top: auto; 
+    margin-top: auto;
 }
-
 
 /* カウントダウン入力欄のスタイル */
 .countdown-controls-top {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-    gap: 5px; /* ラベルとの隙間を詰める */
+    gap: 5px;
     margin-bottom: 10px;
 }
 
@@ -65,11 +164,11 @@ header {
     background: #333;
     border: 1px solid #0f0;
     color: #0f0;
-    padding: 10px 5px; /* 左右のパディングを減らす */
+    padding: 10px 5px;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    text-align: right; /* 数字を右寄せ */
+    text-align: right;
 }
 
 /* ラベル (時間, 分, 秒) のスタイル */
@@ -78,12 +177,34 @@ header {
     margin-right: 5px;
 }
 
+/* --- 単位変換セクション固有のスタイル --- */
+.converter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
-/* 半角入力メッセージは不要になったためスタイルも削除 */
+#output-value {
+    background: #444; /* 結果表示欄は少し暗く */
+    cursor: default;
+}
 
-/* ... (単位変換セクション以降のスタイルは省略、変更なし) ... */
-.feature-input { /* ... */ }
-.converter-wrapper { /* ... */ }
-#output-value { /* ... */ }
-.converter-message { /* ... */ }
-.timer-message { /* ... */ }
+/* --- ここから先は将来の機能のためのスタイル（HTML後半部分に対応） --- */
+
+/* カラーパレット */
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.color-card {
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3) inset;
+}
+
+/* 他のセクションのスタイルも必要に応じてここに追加できます */
