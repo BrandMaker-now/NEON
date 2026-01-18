@@ -90,7 +90,6 @@ main {
 .feature-content {
     display: none; /* 初期状態は非表示 */
     padding: 20px 0;
-    /* 未実装セクションの点滅開始時の背景色として使用 */
     background: rgba(0, 255, 0, 0.05); 
     border-radius: 5px;
 }
@@ -106,6 +105,14 @@ h2, h3 {
     padding-bottom: 5px;
 }
 
+/* ★★★ 位置調整のための追加CSS ★★★ */
+/* コンテンツ量が少ないセクションのタイトルに、上部の余白を追加して位置を調整 */
+#rss-reader h2,
+#weather-api h2 {
+    margin-top: 50px; /* 他のセクションと揃うように調整した値 */
+}
+
+
 .timer-message, .converter-message {
     font-size: 0.9rem;
     color: #aaa;
@@ -116,7 +123,7 @@ h2, h3 {
 .timer-wrapper {
     display: flex;
     gap: 20px; /* タイマー間の隙間 */
-    flex-wrap: nowrap; /* ★画面が狭くても絶対に折り返さない */
+    flex-wrap: nowrap; /* 画面が狭くても絶対に折り返さない */
     justify-content: center;
 }
 
