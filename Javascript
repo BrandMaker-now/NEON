@@ -1,0 +1,27 @@
+let startTime;
+let intervalId;
+const display = document.getElementById('timer-display');
+const startButton = document.getElementById('start-button');
+const stopButton = document.getElementById('stop-button');
+
+function startTimer() {
+  startTime = Date.now();
+  intervalId = setInterval(updateTimer, 10);
+  startButton.disabled = true;
+}
+
+function stopTimer() {
+  clearInterval(intervalId);
+  startButton.disabled = false;
+}
+
+function updateTimer() {
+  const elapsed = Date.now() - startTime;
+  const minutes = Math.floor(elapsed / 60000);
+  const seconds = Math.floor((elapsed % 60000) / 1000);
+  const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  display.textContent = formattedTime;
+}
+
+startButton.addEventListener('click', startTimer);
+stopButton.addEventListener('click', stopTimer);
