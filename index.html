@@ -1,29 +1,38 @@
 <!-- ダークモード切り替えボタン（右上に固定） -->
-<button id="dark-mode-toggle" title="ダークモード切り替え">🌓</button>
+<button id="dark-mode-toggle">🌓</button>
 
-<!-- 機能選択メニュー -->
+<header>
+    <h1 class="logo">My Portal</h1>
+</header>
+
 <nav id="feature-menu">
     <div class="feature-grid">
-        <a href="#" class="feature-btn" onclick="showFeature('timer-section')">タイマー</a>
-        <a href="#" class="feature-btn" onclick="showFeature('unit-converter')">単位変換</a>
-        <a href="#" class="feature-btn" onclick="showFeature('color-palette')">色見本帳</a>
-        <a href="#" class="feature-btn" onclick="showFeature('calculator')">計算機</a>
-        <a href="#" class="feature-btn" onclick="showFeature('study-counter')">学習記録</a>
-        <a href="#" class="feature-btn" onclick="showFeature('flashcards')">フラッシュカード</a>
-        <a href="#" class="feature-btn" onclick="showFeature('random-picker')">ランダム出題</a>
-        <a href="#" class="feature-btn" onclick="showFeature('bookmarks')">お気に入り</a>
-        <a href="#" class="feature-btn" onclick="showFeature('progress-bar')">学習進捗</a>
-        <a href="#" class="feature-btn" onclick="showFeature('rss-reader')">RSSリーダー</a>
-        <a href="#" class="feature-btn" onclick="showFeature('weather-api')">お天気</a>
-        <a href="#" class="feature-btn" onclick="showFeature('voting-system')">投票システム</a>
+        <button class="feature-btn" onclick="showFeature('timer-section')">タイマー</button>
+        <button class="feature-btn" onclick="showFeature('unit-converter')">単位変換</button>
+        <button class="feature-btn" onclick="showFeature('color-palette')">色見本帳</button>
+        <button class="feature-btn" onclick="showFeature('calculator')">計算機</button>
+        <button class="feature-btn" onclick="showFeature('study-counter')">学習記録</button>
+        <button class="feature-btn" onclick="showFeature('flashcards')">フラッシュカード</button>
+        <button class="feature-btn" onclick="showFeature('random-picker')">ランダム出題</button>
+        <button class="feature-btn" onclick="showFeature('bookmarks')">お気に入り</button>
+        <button class="feature-btn" onclick="showFeature('progress-bar')">学習進捗</button>
+        <button class="feature-btn" onclick="showFeature('rss-reader')">RSSリーダー</button>
+        <button class="feature-btn" onclick="showFeature('weather-api')">お天気</button>
+        <button class="feature-btn" onclick="showFeature('voting-system')">投票システム</button>
     </div>
 </nav>
 
-<!-- 各機能のコンテンツエリア -->
-<main id="main-content">
-    <section id="timer-section" class="feature-content"> <!-- 既存のタイマー --> </section>
-    <section id="unit-converter" class="feature-content"> <h2>単位変換</h2> <!-- コンテンツ --> </section>
-    <section id="color-palette" class="feature-content"> <h2>色見本帳</h2> <!-- コンテンツ --> </section>
-    <!-- ... 他のセクションも同様に id を振って作成 ... -->
-    <section id="voting-system" class="feature-content"> <h2>投票システム</h2> <!-- コンテンツ --> </section>
+<main>
+    <!-- 各機能の表示エリア -->
+    <section id="timer-section" class="feature-content">
+        <div class="timer-container">
+            <div id="timer-display">00:00</div>
+            <!-- タイマーの操作ボタンなど -->
+        </div>
+    </section>
+
+    <!-- 他のセクション（中身はこれから作成） -->
+    <section id="unit-converter" class="feature-content"><h2>単位変換</h2></section>
+    <section id="color-palette" class="feature-content"><h2>色見本帳</h2></section>
+    <section id="voting-system" class="feature-content"><h2>投票システム</h2></section>
 </main>
