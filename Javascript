@@ -1,27 +1,50 @@
 let startTime;
-let intervalId;
+let updatedTime;
+let difference = 0;
+let tInterval;
+let running = false;
 const display = document.getElementById('timer-display');
 const startButton = document.getElementById('start-button');
-const stopButton = document.getElementById('stop-button');
+const pauseButton = document.getElementById('pause-button');
+const resetButton = document.getElementById('reset-button');
 
 function startTimer() {
-  startTime = Date.now();
-  intervalId = setInterval(updateTimer, 10);
-  startButton.disabled = true;
+  if (!running) {
+    startTime = Date.now() - difference;
+    tInterval = setInterval(updateTimer, 10);
+    running = true;
+    startButton.disabled = true;
+    pauseButton.disabled = false;
+  }
 }
 
-function stopTimer() {
-  clearInterval(intervalId);
+function pauseTimer() {
+  if (running) {
+    clearInterval(tInterval);
+    difference = Date.now() - startTime;
+    running = false;
+    startButton.disabled = false;
+    pauseButton.disabled = true;
+  }
+}
+
+function resetTimer() {
+  clearInterval(tInterval);
+  running = false;
+  difference = 0;
+  display.textContent = "00:00";
   startButton.disabled = false;
+  pauseButton.disabled = false;
 }
 
 function updateTimer() {
-  const elapsed = Date.now() - startTime;
-  const minutes = Math.floor(elapsed / 60000);
-  const seconds = Math.floor((elapsed % 60000) / 1000);
+  updatedTime = Date.now() - startTime;
+  const minutes = Math.floor(updatedTime / 60000);
+  const seconds = Math.floor((updatedTime % 60000) / 1000);
   const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   display.textContent = formattedTime;
 }
 
 startButton.addEventListener('click', startTimer);
-stopButton.addEventListener('click', stopTimer);
+pauseButton.addEventListener('click', pauseTimer);
+resetButton.addEventListener('click', resetTimer);
