@@ -30,12 +30,15 @@
 </nav>
 
 <main>
-    <!-- 1. タイマー -->
+    <!-- タイマー機能セクション -->
     <section id="timer-section" class="feature-content active">
         <div class="timer-wrapper">
+            <!-- ストップウォッチエリア -->
             <div class="timer-container stopwatch">
                 <h3>STOPWATCH</h3>
-                <p class="timer-message">スタートで計測開始。リセットで00:00に戻ります。</p>
+                <p class="timer-message">
+                    スタートで計測開始、一時停止で停止します。リセットで00:00に戻ります。
+                </p>
                 <div id="stopwatch-display" class="display">00:00:00</div>
                 <div class="timer-controls">
                     <button id="sw-start-btn" class="feature-btn">スタート</button>
@@ -43,9 +46,13 @@
                     <button id="sw-reset-btn" class="feature-btn">リセット</button>
                 </div>
             </div>
+
+            <!-- カウントダウンエリア -->
             <div class="timer-container countdown">
                 <h3>COUNTDOWN</h3>
-                <p class="timer-message">時間を設定し、スタートで開始します。</p>
+                <p class="timer-message">
+                    時間を設定し、スタートでカウントダウンを開始します。
+                </p>
                 <div class="countdown-controls-top">
                     <select id="countdown-hours-input" class="feature-input"></select>
                     <span>時間</span>
@@ -64,9 +71,13 @@
         </div>
     </section>
     
-    <!-- 2. 単位変換 -->
+    <!-- 単位変換機能セクション -->
     <section id="unit-converter" class="feature-content">
         <h2>UNIT CONVERTER</h2>
+        <p class="converter-message">
+            使い方: 左側の入力欄に数値を入れて、単位をプルダウンで選択してください。<br>
+            結果は右側の入力欄に有効数字5桁で自動表示されます。（小数点以下の桁数は自動調整されます）
+        </p>
         <div class="converter-wrapper">
             <input type="number" id="input-value" class="feature-input" value="1" oninput="convertUnits()">
             <select id="input-unit" class="feature-input" onchange="convertUnits()">
@@ -86,12 +97,12 @@
         </div>
     </section>
 
-    <!-- 3. お天気 (アップデート版) -->
+    <!-- お天気セクション (2026年最新アップデート) -->
     <section id="weather-api" class="feature-content">
         <h2>WEATHER REPORT</h2>
-        <p class="converter-message">都市名を入力するか、現在地から天気を取得します。</p>
+        <p class="converter-message">都市名入力、または現在地(2026/01/18時点)から取得します。</p>
         <div class="converter-wrapper" style="margin-bottom: 20px;">
-            <input type="text" id="city-input" class="feature-input" placeholder="都市名(例: Tokyo)" style="flex: 1;">
+            <input type="text" id="city-input" class="feature-input" placeholder="City Name (e.g. Kagoshima)" style="flex: 1;">
             <button class="feature-btn" onclick="getWeatherByCity()">検索</button>
             <button class="feature-btn" onclick="getWeather()">現在地</button>
         </div>
@@ -101,74 +112,69 @@
                 <div id="weather-display" class="display" style="font-size: 2.5rem; margin: 10px 0;">--°C</div>
                 <div id="weather-desc" style="text-transform: uppercase; letter-spacing: 2px;">READY</div>
             </div>
-            <!-- 3日間予報グリッド -->
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%;">
                 <div class="timer-container" style="min-height: 100px; min-width: auto; padding: 10px;">
                     <div style="color: #0ff; font-size: 0.8rem;">明日</div>
                     <div id="forecast-1-temp" style="font-size: 1.2rem; color: #0f0;">--°C</div>
-                    <div id="forecast-1-desc" style="font-size: 0.7rem;">--</div>
                 </div>
                 <div class="timer-container" style="min-height: 100px; min-width: auto; padding: 10px;">
                     <div style="color: #0ff; font-size: 0.8rem;">明後日</div>
                     <div id="forecast-2-temp" style="font-size: 1.2rem; color: #0f0;">--°C</div>
-                    <div id="forecast-2-desc" style="font-size: 0.7rem;">--</div>
                 </div>
                 <div class="timer-container" style="min-height: 100px; min-width: auto; padding: 10px;">
                     <div style="color: #0ff; font-size: 0.8rem;">3日後</div>
                     <div id="forecast-3-temp" style="font-size: 1.2rem; color: #0f0;">--°C</div>
-                    <div id="forecast-3-desc" style="font-size: 0.7rem;">--</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 4. 色見本帳 -->
+    <!-- 元のダミーセクション群 (位置調整用) -->
     <section id="color-palette" class="feature-content">
         <h2>COLOR PALETTE</h2>
         <p class="converter-message">クリックでカラーコードをコピーできます。（※機能は未実装）</p>
     </section>
-
-    <!-- 5. 計算機 -->
+    
     <section id="calculator" class="feature-content">
         <h2>CALCULATOR</h2>
         <p class="converter-message">シンプルな計算機です。（※機能は未実装）</p>
     </section>
-
-    <!-- 6. 学習記録 -->
+    
     <section id="study-counter" class="feature-content">
         <h2>STUDY COUNTER</h2>
         <p class="converter-message">学習時間を記録します。（※機能は未実装）</p>
     </section>
-
-    <!-- 7. フラッシュカード -->
+    
     <section id="flashcards" class="feature-content">
         <h2>FLASHCARDS</h2>
         <p class="converter-message">単語カード機能です。（※機能は未実装）</p>
     </section>
-
-    <!-- 8. ランダム出題 -->
+    
     <section id="random-picker" class="feature-content">
         <h2>RANDOM PICKER</h2>
         <p class="converter-message">項目の中からランダムに一つ選びます。（※機能は未実装）</p>
     </section>
-
-    <!-- 9. お気に入り -->
+    
     <section id="bookmarks" class="feature-content">
         <h2>BOOKMARKS</h2>
         <p class="converter-message">お気に入りのリンクを保存します。（※機能は未実装）</p>
     </section>
+    
+    <section id="progress-bar" class="feature-content">
+        <h2>PROGRESS BAR</h2>
+        <p class="converter-message">進捗バーの表示エリアです。（※機能は未実装）</p>
+    </section>
 
-    <!-- 10. RSSリーダー -->
     <section id="rss-reader" class="feature-content">
         <h2>RSSリーダー</h2>
         <p class="converter-message">RSSフィードを読み込みます。（※機能は未実装）</p>
     </section>
 
-    <!-- 11. 投票システム -->
     <section id="voting-system" class="feature-content">
         <h2>VOTING SYSTEM</h2>
         <p class="converter-message">投票システムを構築します。（※機能は未実装）</p>
     </section>
+
 </main>
 
 <script src="script.js"></script>
