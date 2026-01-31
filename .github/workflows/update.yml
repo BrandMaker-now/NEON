@@ -2,33 +2,31 @@ name: Update News
 
 on:
   schedule:
-    - cron: '0 * * * *' # 1時間に1回実行
-  workflow_dispatch: # 手動実行用
-
-permissions:
-  contents: write
+    - cron: '0 0 * * *' # 毎日JST 9時に実行
+  workflow_dispatch:   # 手動実行ボタン用
 
 jobs:
-  update:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Fetch and Update News
+      - name: Fetch and Update News
         run: |
-          # 1. 一時ファイルを作成し、1行目に日本時間で更新日時を書き込む（上書き > ）
+          # ① 一時ファイル作成（上書き > ）
           echo "最終更新: $(date -d '9 hours' +'%Y/%m/%d %H:%M')" > news_temp.txt
           
-          # 2. RSSから<title>と<link>を抽出し、整形して一時ファイルに追記（追記 >> ）
-          # ※最初の2つ（RSS自体のタイトルとリンク）を除外するため、3行目以降を取得します
+          # ② RSS取得（追記 >> ）
           curl -s https://news.yahoo.co.jp | \
           grep -oE '<title>.*</title>|<link>.*</link>' | \
           sed -e 's/<[^>]*>//g' | \
           tail -n +3 >> news_temp.txt
           
-          # 3. 本番のファイルに移動（上書き）
+          # ③ 本番ファイルへ上書き
           mv news_temp.txt NewsTyping/news.txt
-
 
       - name: Commit and Push
         run: |
@@ -38,10 +36,4 @@ jobs:
           if ! git diff --staged --quiet; then
             git commit -m "Update news $(date +'%Y-%m-%d %H:%M')"
             git push
-          fi
-
-      - name: Deploy to Vercel
-        run: |
-          if [ -n "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}" ]; then
-            curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
           fi
