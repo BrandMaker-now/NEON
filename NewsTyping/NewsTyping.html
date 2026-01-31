@@ -79,7 +79,7 @@
 
     async function init() {
         try {
-            const res = await fetch('./NewsTyping/news.txt?t=' + Date.now());
+            const res = await fetch('./news.txt?t=' + Date.now());
             if (!res.ok) throw new Error("news.txtが見つかりません");
 
             const text = await res.text();
