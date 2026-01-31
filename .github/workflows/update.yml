@@ -14,19 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch RSS and Extract Data
+            - name: Fetch and Update News
         run: |
-          curl -sL "https://news.yahoo.co.jp/rss/topics/top-picks.xml" > raw_rss.xml
+          # 1. 一時ファイルを作成し、1行目に日本時間で更新日時を書き込む（上書き > ）
+          echo "最終更新: $(date -d '9 hours' +'%Y/%m/%d %H:%M')" > news_temp.txt
           
-          # 日本時間に設定して1行目に時刻を書き込む
-          export TZ="Asia/Tokyo"
-          echo "最終更新: $(date +'%Y/%m/%d %H:%M')" > NewsTyping/News.txt
+          # 2. RSSから<title>と<link>を抽出し、整形して一時ファイルに追記（追記 >> ）
+          # ※最初の2つ（RSS自体のタイトルとリンク）を除外するため、3行目以降を取得します
+          curl -s https://news.yahoo.co.jp | \
+          grep -oE '<title>.*</title>|<link>.*</link>' | \
+          sed -e 's/<[^>]*>//g' | \
+          tail -n +3 >> news_temp.txt
           
-          # ニュースデータを追記 (>> を使用)
-          sed -n '/<item>/,$p' raw_rss.xml | \
-          grep -E "<title>|<link>" | \
-          sed -e 's/<[^>]*>//g' -e 's/^[[:space:]]*//;s/[[:space:]]*$//' | \
-          grep -v "^$" >> NewsTyping/news.txt
+          # 3. 本番のファイルに移動（上書き）
+          mv news_temp.txt NewsTyping/news.txt
+
 
       - name: Commit and Push
         run: |
