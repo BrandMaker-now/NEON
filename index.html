@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メンテナンス</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QCY3N22YKQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-QCY3N22YKQ');
+</script>
+    
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-color: #ffffff;
+            --text-color: #333;
+            --accent-color: #007bff;
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background: var(--bg-color); 
+            margin: 0; 
+            padding: 20px; 
+            color: var(--text-color);
+        }
+        h1 { text-align: center; margin-bottom: 30px; font-weight: 300; }
+        
+             .menu-grid {
+                display: grid;
+                grid-template-columns: 100px 100px; 
+                gap: 15px;
+                max-width: 500px;
+                margin: 0 auto;
+                justify-content: center;
+}
+        
+        .menu-item {
+            background: var(--card-color);
+            border-radius: 22px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text-color);
+            border: none;
+        }
+        .menu-item:active { transform: scale(0.9); background: #eef; }
+        .menu-item i { font-size: 32px; margin-bottom: 8px; font-style: normal; }
+        .menu-item span { font-size: 11px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>アプリ一覧</h1>
+
+    <div class="menu-grid">
+        <a href="WorldNow/WorldNow.html" class="menu-item"><i>🗺</i><span>World Now</span></a>
+        <a href="NewsTyping/NewsTyping.html" class="menu-item"><i>⌨️</i><span>NewsTyping</span></a>
+    </div>
+
+</body>
+</html>
