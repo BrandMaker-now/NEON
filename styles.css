@@ -20,9 +20,13 @@ h1 { text-align: center; margin-bottom: 30px; font-weight: 300; }
 
 .site-header { background-color: var(--brand-black); border-bottom: 3px solid var(--card-color); padding: 10px 20px; display: flex !important; justify-content: space-between !important; align-items: center; }
 
-footer { margin: 0; background-color: var(--brand-black); border-top: 1px solid #eee; font-size: 0.9em; color: #ffffff; text-align: center; padding: 20px; }
+footer { margin: 0 ; background-color: var(--brand-black); border-top: 7px solid #eee; font-size: 0.9em; color: #ffffff; text-align: center; padding: 20px 0px 0px 0px; }
 
-footer ul, footer li { list-style: none !important; padding: 0; margin: 0; }
+footer ul { list-style: none; padding: 0; margin: 0; }
+
+footer li { list-style: none; line-height: 1.6; margin: 5px 0;}
+
+.copyright { border-top: 1px solid #555; margin-top: 15px; padding-top: 15px; padding-bottom: 20px; }
 
 footer a { color: var(--card-color) !important; text-decoration: none; }
 
@@ -46,7 +50,7 @@ footer a { color: var(--card-color) !important; text-decoration: none; }
 
 .faq-section details[open] { background-color: #fafafa; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); }
 
-.faq-section summary { display: flex; gap: 12px; font-weight: bold; font-size: 1.05rem; cursor: pointer; list-style: none !important; outline: none; padding: 16px 20px; box-sizing: border-box; }
+.faq-section summary { display: flex; gap: 12px; font-weight: bold; font-size: 1.05rem; cursor: pointer; list-style: none; !important; outline: none; padding: 16px 20px; box-sizing: border-box; }
 
 
 .faq-section summary::-webkit-details-marker { display: none; }
