@@ -118,8 +118,8 @@ main, .main-content {
 
 
 .faq-section {
-　width: 100%;
-  max-width: 800px;
+　width: fit-content;
+  max-width: 500px;
   margin: 20px auto;
   padding: 0 20px;
   box-sizing: border-box;
@@ -183,6 +183,8 @@ main, .main-content {
   color: #333;
   line-height: 1.8;
   border-top: 1px solid #eee;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .faq-section .label {
@@ -203,6 +205,8 @@ main, .main-content {
 .faq-section .text {
   margin: 0;
   flex: 1;
+  win-width: 0;
+  word-break: break-all;
   white-space: normal;
   word-wrap: break-word;
   overflow: visible;
