@@ -118,8 +118,8 @@ main, .main-content {
 
 
 .faq-section {
-　width: fit-content;
-  max-width: 500px;
+　width: 100%;
+  max-width: 800px;
   margin: 20px auto;
   padding: 0 20px;
   box-sizing: border-box;
