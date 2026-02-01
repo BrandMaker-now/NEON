@@ -34,11 +34,11 @@
 <body>
     <header class="site-header">
     
-<a href="./TOP/" class="back-link">← ホーム</a>
+<a href="../TOP/" class="back-link">← ホーム</a>
     
         <div class="header-links">
-            <a href="./Q&A/" class="contact-link">Q&A</a>
-            <a href="./Contact/" class="contact-link">お問い合わせ</a>
+            <a href="../Q&A/" class="contact-link">Q&A</a>
+            <a href="../Contact/" class="contact-link">お問い合わせ</a>
             <a href="https://x.com/Brandmaker_Now" target="_blank" rel="noopener noreferrer" class="x-icon-link">
                 公式𝕏をフォローする
             </a>
@@ -96,7 +96,6 @@
             const text = await res.text();
             let lines = text.trim().split('\n').map(l => l.trim()).filter(l => l.length > 0);
             
-            // 1行目が時刻データ（最終更新: ...）であれば抜き出す
             if (lines.length > 0 && lines[0].startsWith('最終更新')) {
                 updateTimeDisplay.textContent = lines.shift();
             }
@@ -166,8 +165,8 @@
 </main>
 <footer>
     <ul>
-        <li><a href="./terms/">利用規約</a></li>
-        <li><a href="./privacy-policy/">プライバシーポリシー</a></li>
+        <li><a href="../terms/">利用規約</a></li>
+        <li><a href="../privacy-policy/">プライバシーポリシー</a></li>
     </ul>
     <div style="border-top: 1px solid #555; margin-top: 15px; padding-top: 15px; padding-bottom: 20px;">
         &copy; BrandMaker.now. All right reserved.
