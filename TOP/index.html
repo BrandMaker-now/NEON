@@ -27,7 +27,6 @@
         <a href="../NewsTyping/" class="menu-item"><i>⌨️</i><span>NewsTyping</span></a>
     </div>
 
-    <!-- ここからお知らせ一覧セクションの開始 -->
     <div class="news-wrapper">
         <div class="search-area">
             <input type="text" id="searchInput" placeholder="キーワードで検索...">
@@ -49,9 +48,8 @@
             表示中：<span id="totalCount">0</span> 件
         </div>
     </div>
-    <!-- お知らせ一覧セクションの終了 -->
-
 </main>
+
 <footer>
     <ul>
         <li><a href="../terms/">利用規約</a></li>
@@ -62,57 +60,57 @@
     </div>
 </footer>
 
-    <!-- JavaScriptはここに統合 -->
-    <script>
-        const newsData = [
-            { date: '2026-02-03', category: 'メンテナンス', title: 'サーバーメンテナンス実施中', pinned: true },
-            { date: '2026-02-02', category: 'その他', title: '新しいサービスを開始しました！' },
-            { date: '2026-01-20', category: 'その他', title: '期間限定キャンペーン', isFinished: true },
-            { date: '2026-01-10', category: 'その他', title: '通常のお知らせ' }
-        ];
+    <!-- ここで外部のデータを読み込む -->
+    <script src="information/news-data.js"></script>
 
+    <script>
         function displayNews(filter = 'すべて', keyword = '') {
             const list = document.getElementById('newsList');
             const today = new Date();
             let count = 0;
             list.innerHTML = '';
 
-            const sortedData = [...newsData].sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+            // ピン留めを上にして、次に日付が新しい順に並び替え
+            const sortedData = [...newsData].sort((a, b) => {
+                if (a.pinned !== b.pinned) return b.pinned ? -1 : 1;
+                return new Date(b.date) - new Date(a.date);
+            });
 
-            sortedData.forEach(item => {
-                const postDate = new Date(item.date);
-                const diffDays = (today - postDate) / (1000 * 60 * 60 * 24);
+            // フィルターと検索、さらに「最新5件」に絞り込む
+            const filteredData = sortedData.filter(item => {
                 const matchCat = (filter === 'すべて' || item.category === filter);
                 const matchKey = item.title.includes(keyword);
+                return matchCat && matchKey;
+            }).slice(0, 5); // ここで5件だけに絞っています
 
-                if (matchCat && matchKey) {
-                    const li = document.createElement('li');
-                    li.className = 'news-item';
-                    
-                    if (item.isFinished) { li.classList.add('is-finished'); } 
-                    else if (item.pinned) { li.classList.add('is-pinned'); }
-                    
-                    let statusText = '';
-                    if (item.pinned) { statusText = '【対応中】'; }
-                    else if (item.isFinished) { statusText = '【終了】'; }
+            filteredData.forEach(item => {
+                const postDate = new Date(item.date);
+                const diffDays = (today - postDate) / (1000 * 60 * 60 * 24);
+                
+                const li = document.createElement('li');
+                li.className = 'news-item';
+                
+                if (item.isFinished) { li.classList.add('is-finished'); } 
+                else if (item.pinned) { li.classList.add('is-pinned'); }
+                
+                let statusText = '';
+                if (item.pinned) { statusText = '【対応中】'; }
+                else if (item.isFinished) { statusText = '【終了】'; }
 
-                    const newBadge = (diffDays >= 0 && diffDays < 3) ? '<span class="new-badge">NEW</span>' : '';
-                    const catClass = item.category === 'メンテナンス' ? 'maintenance' : 'other';
+                const newBadge = (diffDays >= 0 && diffDays < 3) ? '<span class="new-badge">NEW</span>' : '';
+                const catClass = item.category === 'メンテナンス' ? 'maintenance' : 'other';
 
-                    // 3のJavaScript内、li.innerHTMLの部分をこれに書き換え
-li.innerHTML = `
-    <a href="${item.folder}/">
-        <span class="date">${item.date}</span>
-        <span class="category ${catClass}">${item.category}</span>
-        <span class="status-text">${statusText}</span>
-        <span class="title">${item.title}</span>
-        ${newBadge}
-    </a>
-`;
-
-                    list.appendChild(li);
-                    count++;
-                }
+                li.innerHTML = `
+                    <a href="information/${item.folder}/">
+                        <span class="date">${item.date}</span>
+                        <span class="category ${catClass}">${item.category}</span>
+                        <span class="status-text">${statusText}</span>
+                        <span class="title">${item.title}</span>
+                        ${newBadge}
+                    </a>
+                `;
+                list.appendChild(li);
+                count++;
             });
             document.getElementById('totalCount').innerText = count;
         }
