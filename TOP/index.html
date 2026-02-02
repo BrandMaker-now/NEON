@@ -109,7 +109,7 @@
                 const catClass = item.category === 'メンテナンス' ? 'maintenance' : 'other';
 
                 li.innerHTML = `
-                    <a href="information/${item.folder}/">
+                    <a href="../information/${item.folder}/">
                         <span class="date">${item.date}</span>
                         <span class="category ${catClass}">${item.category}</span>
                         <span class="status-text">${statusText}</span>
