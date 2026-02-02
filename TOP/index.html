@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="information/style.css">
     <title>ホーム画面 | BrandMaker.now</title>
 </head>
 <body>
 
     <header class="site-header">
-
         <div></div> 
-
         <div class="header-links">
             <a href="../Q&A/" class="contact-link">Q&A</a>
             <a href="../Contact/" class="contact-link">お問い合わせ</a>
@@ -20,6 +18,7 @@
             </a>
         </div>
     </header>
+
 <main>
     <h1>アプリ一覧</h1>
 
@@ -27,6 +26,31 @@
         <a href="../WorldNow/" class="menu-item"><i>🗺</i><span>World Now</span></a>
         <a href="../NewsTyping/" class="menu-item"><i>⌨️</i><span>NewsTyping</span></a>
     </div>
+
+    <!-- ここからお知らせ一覧セクションの開始 -->
+    <div class="news-wrapper">
+        <div class="search-area">
+            <input type="text" id="searchInput" placeholder="キーワードで検索...">
+            <button id="searchButton">検索</button> 
+        </div>
+
+        <div class="news-border-box">
+            <div class="news-header">
+                <h2 class="news-title">お知らせ</h2>
+                <div class="filter-buttons">
+                    <button onclick="filterCategory('すべて')" class="cat-btn active">すべて</button>
+                    <button onclick="filterCategory('メンテナンス')" class="cat-btn">メンテナンス</button>
+                    <button onclick="filterCategory('その他')" class="cat-btn">その他</button>
+                </div>
+            </div>
+            <ul class="news-list" id="newsList"></ul>
+        </div>
+        <div class="pagination">
+            表示中：<span id="totalCount">0</span> 件
+        </div>
+    </div>
+    <!-- お知らせ一覧セクションの終了 -->
+
 </main>
 <footer>
     <ul>
@@ -37,5 +61,76 @@
         &copy; BrandMaker.now. All right reserved.
     </div>
 </footer>
+
+    <!-- JavaScriptはここに統合 -->
+    <script>
+        const newsData = [
+            { date: '2026-02-03', category: 'メンテナンス', title: 'サーバーメンテナンス実施中', pinned: true },
+            { date: '2026-02-02', category: 'その他', title: '新しいサービスを開始しました！' },
+            { date: '2026-01-20', category: 'その他', title: '期間限定キャンペーン', isFinished: true },
+            { date: '2026-01-10', category: 'その他', title: '通常のお知らせ' }
+        ];
+
+        function displayNews(filter = 'すべて', keyword = '') {
+            const list = document.getElementById('newsList');
+            const today = new Date();
+            let count = 0;
+            list.innerHTML = '';
+
+            const sortedData = [...newsData].sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+
+            sortedData.forEach(item => {
+                const postDate = new Date(item.date);
+                const diffDays = (today - postDate) / (1000 * 60 * 60 * 24);
+                const matchCat = (filter === 'すべて' || item.category === filter);
+                const matchKey = item.title.includes(keyword);
+
+                if (matchCat && matchKey) {
+                    const li = document.createElement('li');
+                    li.className = 'news-item';
+                    
+                    if (item.isFinished) { li.classList.add('is-finished'); } 
+                    else if (item.pinned) { li.classList.add('is-pinned'); }
+                    
+                    let statusText = '';
+                    if (item.pinned) { statusText = '【対応中】'; }
+                    else if (item.isFinished) { statusText = '【終了】'; }
+
+                    const newBadge = (diffDays >= 0 && diffDays < 3) ? '<span class="new-badge">NEW</span>' : '';
+                    const catClass = item.category === 'メンテナンス' ? 'maintenance' : 'other';
+
+                    li.innerHTML = `
+                        <a href="#">
+                            <span class="date">${item.date}</span>
+                            <span class="category ${catClass}">${item.category}</span>
+                            <span class="status-text">${statusText}</span>
+                            <span class="title">${item.title}</span>
+                            ${newBadge}
+                        </a>
+                    `;
+                    list.appendChild(li);
+                    count++;
+                }
+            });
+            document.getElementById('totalCount').innerText = count;
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === cat));
+            displayNews(cat, document.getElementById('searchInput').value);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const activeCat = document.querySelector('.cat-btn.active').innerText;
+            displayNews(activeCat, e.target.value);
+        });
+
+        document.getElementById('searchButton').addEventListener('click', () => {
+            const activeCat = document.querySelector('.cat-btn.active').innerText;
+            displayNews(activeCat, document.getElementById('searchInput').value);
+        });
+        
+        displayNews();
+    </script>
 </body>
 </html>
