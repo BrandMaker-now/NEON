@@ -61,7 +61,10 @@
 </footer>
 
 <script>
- const newsData = [{ date: "2026-02-03", category: "メンテナンス", title: "システムメンテナンスについて", folder: "2026-02-03-システムメンテナンスについて", pinned: false, isFinished: false }];
+ const newsData = [
+{ date: "2026-02-03", category: "メンテナンス", title: "システムメンテナンスについて", folder: "2026-02-03-システムメンテナンスについて", pinned: false, isFinished: false }
+{ date: "2026-02-04", category: "メンテナンス", title: "【重要】システムメンテナンスについて", folder: "2026-02-04-【重要】システムメンテナンスについて", pinned: true, isFinished: false }
+];
 function displayNews(filter = 'すべて', keyword = '') {
 const list = document.getElementById('newsList');
 const today = new Date();
@@ -88,8 +91,7 @@ if (item.isFinished) { li.classList.add('is-finished'); }
 else if (item.pinned) { li.classList.add('is-pinned'); }
                 
 let statusText = '';
-if (item.pinned) { statusText = '【対応中】'; }
-else if (item.isFinished) { statusText = '【終了】'; }
+if (item.isFinished) { statusText = '【終了】'; }
 
 const newBadge = (diffDays >= 0 && diffDays < 3) ? '<span class="new-badge">NEW</span>' : '';
 const catClass = item.category === 'メンテナンス' ? 'maintenance' : 'other';
