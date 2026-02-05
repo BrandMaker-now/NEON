@@ -57,4 +57,4 @@ main, .main-content { background-color: var(--card-color); max-width: 800px; mar
 
 .breadcrumb a { color: #0066cc; text-decoration: none; }
 
-.header-logo img {　max-height: 50px; display: block; }
+.logo img {　max-height: 50px; display: block; }
