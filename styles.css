@@ -142,5 +142,5 @@ main, .main-content { background-color: var(--card-color); max-width: 800px; mar
 
 .news-item.is-pinned:hover { background-color: #ffed9d !important; }
 
-.header-logo img {　max-height: 50px; display: block; }
+.logo img {　max-height: 50px; display: block; }
 
