@@ -61,7 +61,7 @@ main, .main-content { background-color: var(--card-color); max-width: 800px; mar
 
 .end-visual-wrapper {
     width: 100%;
-    max-width: 800px; /* 記事の幅に合わせて調整してください */
+    max-width: 100%; /* 記事の幅に合わせて調整してください */
     margin: 30px auto;
     line-height: 0; /* 画像下の不要な隙間を消す */
 }
