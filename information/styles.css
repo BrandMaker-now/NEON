@@ -58,25 +58,3 @@ main, .main-content { background-color: var(--card-color); max-width: 800px; mar
 .breadcrumb a { color: #0066cc; text-decoration: none; }
 
 .logo img {　max-height: 50px; display: block; }
-
-.end-visual-wrapper {
-    width: 100%;
-    max-width: 100%; /* 記事の幅に合わせて調整してください */
-    margin: 30px auto;
-    line-height: 0; /* 画像下の不要な隙間を消す */
-}
-
-.end-visual-wrapper img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    border-radius: 12px; /* ここで角を丸くします */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* 軽い影で浮かせる */
-    transition: transform 0.3s ease;
-}
-
-/* マウスを乗せた時に少しだけ動く演出（任意） */
-.end-visual-wrapper img:hover {
-    transform: scale(1.01);
-}
