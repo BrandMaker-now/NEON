@@ -68,6 +68,10 @@ main, .main-content { background-color: var(--card-color); max-width: 800px; mar
 .category.important { background: #f1c40f; }
 .category.other { background: #95a5a6; }
 
+.news-list .category.important { background-color: #f1c40f !important; color: #000 !important; }
+
+.news-list .category.maintenance { background-color: #e74c3c !important; color: #fff !important; }
+
 .logo img { max-height: 50px; display: block; }
 
 .logo img:hover { opacity: 0.7; }
