@@ -65,6 +65,7 @@ main, .main-content { background-color: var(--card-color); max-width: 800px; mar
 .category { font-size: 11px; padding: 2px 8px; border-radius: 4px; color: #fff; font-weight: bold; }
 
 .category.maintenance { background: #e74c3c; }
+.category.important { background: #f1c40f; }
 .category.other { background: #95a5a6; }
 
 .logo img { max-height: 50px; display: block; }
