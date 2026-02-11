@@ -88,54 +88,64 @@
 </div>
 </footer>
 
-<script src="../news-data.js"></script>
-<script>
+
+
+
+
+
+    <script>
+// --- 1. ニュースデータの定義 ---
+window.newsData = [
+    { date: "2026-02-03", category: "メンテナンス", title: "システムメンテナンスについて", folder: "2026-02-03-システムメンテナンスについて", pinned: false, isFinished: false },
+    { date: "2026-02-04", category: "メンテナンス", title: "【緊急】システムメンテナンスについて", folder: "2026-02-04-【緊急】システムメンテナンスについて", pinned: true, isFinished: false },
+    { date: "2026-02-09", category: "重要", title: "WorldNowサービス終了のお知らせ", folder: "2026-02-09-WorldNow サービス終了のお知らせ", pinned: false, isFinished: false }
+];
+
+// --- 2. ニュースを表示する関数 ---
 function displayNews(filter = 'すべて', keyword = '') {
-    const data = window.newsData || [];
     const list = document.getElementById('newsList');
+    const totalCountEl = document.getElementById('totalCount');
+    if (!list) return;
+
     const today = new Date();
-    let count = 0;
-    list.innerHTML = '';
+    list.innerHTML = ''; // 一旦空にする
 
-    // 1. 重要またはピン留めを最優先、2. その中で日付が新しい順
-const sortedData = [...data].sort((a, b) => {
-    // 「重要」タグまたは「ピン留め」があるかどうかを判定
-    const aPriority = (a.category === '重要' || a.pinned);
-    const bPriority = (b.category === '重要' || b.pinned);
+    // 重要・ピン留めを優先してソート
+    const sortedData = [...window.newsData].sort((a, b) => {
+        const aPriority = (a.category === '重要' || a.pinned);
+        const bPriority = (b.category === '重要' || b.pinned);
+        if (aPriority !== bPriority) return aPriority ? -1 : 1;
+        return new Date(b.date) - new Date(a.date);
+    });
 
-    if (aPriority !== bPriority) {
-        return aPriority ? -1 : 1; // 優先度がある方を上に
-    }
-    return new Date(b.date) - new Date(a.date); // 同じ優先度なら日付順
-});
-
-
+    // フィルタリング（カテゴリーとキーワード）
     const filteredData = sortedData.filter(item => {
         const matchCat = (filter === 'すべて' || item.category === filter);
-        const matchKey = item.title.includes(keyword);
+        const matchKey = item.title.toLowerCase().includes(keyword.toLowerCase());
         return matchCat && matchKey;
-    }).slice(0, 5);
+    });
 
+    // 表示用のHTMLを生成
     filteredData.forEach(item => {
         const postDate = new Date(item.date);
         const diffDays = (today - postDate) / (1000 * 60 * 60 * 24);
+        
         const li = document.createElement('li');
         li.className = 'news-item';
         
-        if (item.isFinished) { li.classList.add('is-finished'); } 
-        else if (item.pinned) { li.classList.add('is-pinned'); }
-        
-        let statusText = item.isFinished ? '【終了】' : '';
+        // 状態に応じたクラス付与
+        if (item.isFinished) li.classList.add('is-finished');
+        if (item.pinned) li.classList.add('is-pinned');
+
+        // カテゴリーごとの色分け用クラス
+        let catClass = 'other';
+        if (item.category === 'メンテナンス') catClass = 'maintenance';
+        if (item.category === '重要') catClass = 'important';
+
+        const statusText = item.isFinished ? '【終了】' : '';
         const newBadge = (diffDays >= 0 && diffDays < 3) ? '<span class="new-badge">NEW</span>' : '';
 
-        // ★ここで「重要」タグの判定を追加しています
-        let catClass = 'other';
-        if (item.category === 'メンテナンス') {
-            catClass = 'maintenance';
-        } else if (item.category === '重要') {
-            catClass = 'important';
-        }
-
+        // リンク先URLの組み立て（フォルダ名を使用）
         li.innerHTML = `
             <a href="../information/${item.folder}/">
                 <span class="date">${item.date}</span>
@@ -145,30 +155,61 @@ const sortedData = [...data].sort((a, b) => {
                 ${newBadge}
             </a>`;
         list.appendChild(li);
-        count++;
     });
-    document.getElementById('totalCount').innerText = count;
+
+    // 件数の表示更新
+    if (totalCountEl) totalCountEl.innerText = filteredData.length;
 }
 
+// --- 3. カテゴリーボタンが押された時の処理 ---
 function filterCategory(cat) {
-    document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === cat));
-    displayNews(cat, document.getElementById('searchInput').value);
+    // ボタンのactiveクラスを付け替え
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText === cat);
+    });
+    
+    // 検索ワードを考慮して再描画
+    const keyword = document.getElementById('searchInput')?.value || '';
+    displayNews(cat, keyword);
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+// --- 4. ページ読み込み時の初期設定 ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 最初に全データを表示
     displayNews();
-    
+
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
-    
+
+    // キーワード入力時にリアルタイム検索
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const activeBtn = document.querySelector('.cat-btn.active');
-            const activeCat = activeBtn ? activeBtn.innerText : 'すべて';
-            displayNews(activeCat, e.target.value);
+            const currentCat = activeBtn ? activeBtn.innerText : 'すべて';
+            displayNews(currentCat, e.target.value);
         });
     }
-};
+
+    // 検索ボタンクリック時
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
+            const activeBtn = document.querySelector('.cat-btn.active');
+            const currentCat = activeBtn ? activeBtn.innerText : 'すべて';
+            displayNews(currentCat, searchInput.value);
+        });
+    }
+});
 </script>
+
+
+
+
+    
+
+
+
+
+    
+
 </body>
 </html>
