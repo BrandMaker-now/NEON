@@ -87,73 +87,77 @@
 </div>
 </footer>
 
+<script src="../news-data.js"></script>
 <script>
- const newsData = [
-{ date: "2026-02-03", category: "メンテナンス", title: "システムメンテナンスについて", folder: "2026-02-03-システムメンテナンスについて", pinned: false, isFinished: false },
-{ date: "2026-02-04", category: "メンテナンス", title: "【緊急】システムメンテナンスについて", folder: "2026-02-04-【緊急】システムメンテナンスについて", pinned: true, isFinished: false }
-];
 function displayNews(filter = 'すべて', keyword = '') {
-const list = document.getElementById('newsList');
-const today = new Date();
-let count = 0;
-list.innerHTML = '';
+    const data = window.newsData || [];
+    const list = document.getElementById('newsList');
+    const today = new Date();
+    let count = 0;
+    list.innerHTML = '';
 
-const sortedData = [...newsData].sort((a, b) => {
-if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
-return new Date(b.date) - new Date(a.date);});
+    const sortedData = [...data].sort((a, b) => {
+        if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+        return new Date(b.date) - new Date(a.date);
+    });
 
-const filteredData = sortedData.filter(item => {
-const matchCat = (filter === 'すべて' || item.category === filter);
-const matchKey = item.title.includes(keyword);
-return matchCat && matchKey; }).slice(0, 5);
+    const filteredData = sortedData.filter(item => {
+        const matchCat = (filter === 'すべて' || item.category === filter);
+        const matchKey = item.title.includes(keyword);
+        return matchCat && matchKey;
+    }).slice(0, 5); // ここで5件に制限
 
-filteredData.forEach(item => {
-const postDate = new Date(item.date);
-const diffDays = (today - postDate) / (1000 * 60 * 60 * 24);
-                
-const li = document.createElement('li');
-li.className = 'news-item';
+    filteredData.forEach(item => {
+        const postDate = new Date(item.date);
+        const diffDays = (today - postDate) / (1000 * 60 * 60 * 24);
+        const li = document.createElement('li');
+        li.className = 'news-item';
+        if (item.isFinished) { li.classList.add('is-finished'); } 
+        else if (item.pinned) { li.classList.add('is-pinned'); }
+        let statusText = item.isFinished ? '【終了】' : '';
+        const newBadge = (diffDays >= 0 && diffDays < 3) ? '<span class="new-badge">NEW</span>' : '';
+        const catClass = item.category === 'メンテナンス' ? 'maintenance' : 'other';
 
-if (item.isFinished) { li.classList.add('is-finished'); } 
-else if (item.pinned) { li.classList.add('is-pinned'); }
-                
-let statusText = '';
-if (item.isFinished) { statusText = '【終了】'; }
-
-const newBadge = (diffDays >= 0 && diffDays < 3) ? '<span class="new-badge">NEW</span>' : '';
-const catClass = item.category === 'メンテナンス' ? 'maintenance' : 'other';
-
-li.innerHTML = `
-<a href="../information/${item.folder}/">
-<span class="date">${item.date}</span>
-<span class="category ${catClass}">${item.category}</span>
-<span class="status-text">${statusText}</span>
-<span class="title">${item.title}</span>
-${newBadge}
-</a>
-`;
-list.appendChild(li);
-count++;
-});
-document.getElementById('totalCount').innerText = count;
+        li.innerHTML = `
+            <a href="../information/${item.folder}/">
+                <span class="date">${item.date}</span>
+                <span class="category ${catClass}">${item.category}</span>
+                <span class="status-text">${statusText}</span>
+                <span class="title">${item.title}</span>
+                ${newBadge}
+            </a>`;
+        list.appendChild(li);
+        count++;
+    });
+    document.getElementById('totalCount').innerText = count;
 }
 
 function filterCategory(cat) {
-document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === cat));
-displayNews(cat, document.getElementById('searchInput').value);
+    document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === cat));
+    displayNews(cat, document.getElementById('searchInput').value);
 }
 
-document.getElementById('searchInput').addEventListener('input', (e) => {
-const activeCat = document.querySelector('.cat-btn.active').innerText;
-displayNews(activeCat, e.target.value);
-});
+// ページ読み込み完了時の処理をまとめる
+window.onload = function() {
+    displayNews();
 
-document.getElementById('searchButton').addEventListener('click', () => {
-const activeCat = document.querySelector('.cat-btn.active').innerText;
-displayNews(activeCat, document.getElementById('searchInput').value);
-});
-        
-displayNews();
+    // 検索イベントの設定もここで行う
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const activeCat = document.querySelector('.cat-btn.active').innerText;
+            displayNews(activeCat, e.target.value);
+        });
+    }
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
+            const activeCat = document.querySelector('.cat-btn.active').innerText;
+            displayNews(activeCat, searchInput.value);
+        });
+    }
+};
 </script>
 </body>
 </html>
