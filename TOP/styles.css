@@ -36,13 +36,4 @@
 
 .breadcrumb { visibility: hidden; }
 
-/* 重要タグ：読みやすい黄色 */
-.category.important {
-    background-color: #ffeb3b; /* 明るい黄色 */
-    color: #333;               /* 濃いグレー（真っ黒より読みやすい） */
-    border: 2px solid #fbc02d; /* 少し濃い黄色の枠線で引き締める */
-    font-weight: bold;
-    padding: 2px 8px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 軽く浮かせて目立たせる */
-}
+.category-tag { background-color: #ffc107; color: white; padding: 4px 10px; border-radius: 3px; font-weight: bold; }
