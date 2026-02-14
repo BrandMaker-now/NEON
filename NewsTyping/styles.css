@@ -1,0 +1,28 @@
+.container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 90%; max-width: 500px; text-align: center; margin: 20px auto;}
+#word { font-size: 20px; font-weight: bold; margin-bottom: 20px; color: #333; line-height: 1.4; min-height: 3em; }
+input { width: 100%; font-size: 18px; padding: 12px; border: 2px solid #ddd; border-radius: 10px; outline: none; box-sizing: border-box; }
+input:focus { border-color: #007bff; }
+
+#detail-area { display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; text-align: left; }
+#detail-text { font-size: 14px; color: #555; margin-bottom: 10px; }
+#detail-link { color: #007bff; text-decoration: none; font-weight: bold; display: block; margin-bottom: 15px; }
+#next-btn { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; }
+
+.info { margin-top: 15px; font-size: 14px; color: #888; }
+
+#setup-area { text-align: left; margin-bottom: 20px; }
+#news-list-container { max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 10px; margin-bottom: 10px; background: #fff; }
+.news-item { font-size: 13px; margin-bottom: 5px; color: #666; border-bottom: 1px solid #f9f9f9; }
+
+#update-time { font-size: 12px; color: #999; margin-bottom: 8px; text-align: right; }
+
+#start-btn { background: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 18px; cursor: pointer; width: 100%; }
+#start-btn:disabled { background: #ccc; }
+#game-area { display: none; }
+
+.news-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.help-btn { width: 24px; height: 24px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; }
+.modal-box { border: none; border-radius: 15px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 90%; max-width: 450px; }
+.modal-box[open] { animation: fadeIn 0.3s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #aaa; }
