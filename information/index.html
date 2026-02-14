@@ -130,14 +130,13 @@ function displayNews(filter = 'すべて', keyword = '') {
         const statusText = item.isFinished ? '【終了】' : '';
         const newBadge = (diffDays >= 0 && diffDays < 3) ? '<span class="new-badge">NEW</span>' : '';
 
-        li.innerHTML = `
-            <a href="../information/${item.folder}/">
-                <span class="date">${item.date}</span>
-                <span class="category ${catClass}">${item.category}</span>
-                <span class="status-text">${statusText}</span>
-                <span class="title">${item.title}</span>
-                ${newBadge}
-            </a>`;
+       li.innerHTML = `
+    <a href="../information/${item.folder}/">
+        <span class="date">${item.date}</span>
+        <span class="category ${catClass}">${item.category}</span>
+        <span class="title">${item.title}</span>
+        ${newBadge}
+    </a>`;
         list.appendChild(li);
     });
 
