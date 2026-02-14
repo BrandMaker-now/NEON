@@ -20,7 +20,7 @@ input:focus { border-color: #007bff; }
 #start-btn:disabled { background: #ccc; }
 #game-area { display: none; }
 
-.news-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .help-btn { width: 24px; height: 24px; border-radius: 50%; border: 1px solid #ddd; background: #fff; cursor: pointer; }
 .modal-box { border: none; border-radius: 15px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 90%; max-width: 450px; }
 .modal-box[open] { animation: fadeIn 0.3s ease-out forwards; }
