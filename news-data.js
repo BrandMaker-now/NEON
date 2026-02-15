@@ -91,14 +91,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-
-const btn = document.getElementById('js-scroll-top');
-
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 100) {
-    btn.classList.add('is-show');
-  } else {
-    btn.classList.remove('is-show');
-  }
-});
